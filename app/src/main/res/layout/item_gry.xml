@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:padding="8dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_view_numer_gry"
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="tytul"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TableLayout
+            android:id="@+id/table_layout_players"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_numer_gry">
+
+            <TableRow
+                android:id="@+id/table_row_title"
+                android:background="@color/colorAccent"
+                android:padding="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:id="@+id/text_view_static_players"
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:text="@string/players" />
+
+                <TextView
+                    android:id="@+id/text_view_static_cpntract"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/contrats"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_view_static_bombs"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bombs" />
+
+                <TextView
+                    android:id="@+id/text_view_static_score"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textAlignment="viewEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/score" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/table_row_player_1"
+                android:layout_width="match_parent"
+                android:padding="2dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/text_view_player_1"
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/text_view_contract_1"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/text_view_bomb_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/text_view_score_1"
+                    android:layout_weight="1"
+                    android:textAlignment="viewEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/table_row_player_2"
+                android:padding="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/text_view_player_2"
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/text_view_contract_2"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/text_view_bomb_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/text_view_score_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textAlignment="viewEnd" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/table_row_player_3"
+                android:padding="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/text_view_player_3"
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/text_view_contract_3"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/text_view_bomb_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/text_view_score_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textAlignment="viewEnd" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/table_row_player_4"
+                android:padding="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/text_view_player_4"
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/text_view_contract_4"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/text_view_bomb_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/text_view_score_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textAlignment="viewEnd" />
+            </TableRow>
+
+        </TableLayout>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

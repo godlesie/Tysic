@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tysiąc - zapis punktów</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="players">Gracze</string>
+    <string name="contrats">Kontrakty</string>
+    <string name="score">Wyniki</string>
+    <string name="bombs">Bomby</string>
+    <string name="title_activity_gra">Gry</string>
+    <string name="dialog_add_rozgrywka">Dodaj rozgrywkę</string>
+    <string name="player_1">Gracz 1</string>
+    <string name="player_2">Gracz 2</string>
+    <string name="player_3">Gracz 3</string>
+    <string name="player_4">Gracz 4</string>
+    <string name="set_contract_1">kontrakt gracza 1</string>
+    <string name="set_contract_2">kontrakt gracza 2</string>
+    <string name="set_contract_3">kontrakt gracza 3</string>
+    <string name="set_contract_4">kontrakt gracza 4</string>
+    <string name="dialog_add_gra">Ustaw kontrakt</string>
+    <string name="edit">EDYTUJ</string>
+    <string name="delete">USUŃ</string>
+</resources>
