@@ -48,7 +48,7 @@ public class RozgrywkiFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode != Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             if (requestCode == RozgrywkiActivity.REQUEST_DIALOG) {
                 String player1 = (String) data.getSerializableExtra(RozgrywkaAddDialog.EXTRA_PLAYER1);
                 String player2 = (String) data.getSerializableExtra(RozgrywkaAddDialog.EXTRA_PLAYER2);
@@ -90,6 +90,7 @@ public class RozgrywkiFragment extends Fragment {
 
 
     private class RozgrywkaHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        //deklaracja pól widoku
         private TextView mTextViewNumerRozgrywki;
 
         private TextView mTextViewPlayer1, mTextViewPlayer2, mTextViewPlayer3, mTextViewPlayer4;

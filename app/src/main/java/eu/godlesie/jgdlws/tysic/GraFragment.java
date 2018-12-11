@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,97 +23,79 @@ import eu.godlesie.jgdlws.tysic.model.Rozgrywka;
 import eu.godlesie.jgdlws.tysic.model.TysiacLab;
 
 public class GraFragment extends Fragment {
+    RecyclerView mRecyclerView;
+    GraAdapter mAdapter;
+    TysiacLab mTysiacLab;
+    Rozgrywka mRozgrywka;
+    UUID mUUID;
 
-    //TODO - dodaj górny widok z podsumowaniem
-    //TODO - zapisz dane z kontraktu do bazy
-    private UUID mUUID;
-    private RecyclerView mRecyclerViewGra;
-    private GraAdapter mAdapter;
-    private TysiacLab tysiacLab;
 
-    public static final String ROZGRYWKA_ID = "rozgrywka_id";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gry,container,false);
-        mRecyclerViewGra = view.findViewById(R.id.recyclerview_gra);
-        mRecyclerViewGra.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView = view.findViewById(R.id.recyclerview_gra);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mTysiacLab = TysiacLab.get(getActivity());
         mUUID = (UUID) getActivity().getIntent().getSerializableExtra(RozgrywkiFragment.EXTRA_ROZGRYWKA_UUID);
-        tysiacLab = TysiacLab.get(getActivity());
+        mRozgrywka = mTysiacLab.getRozgrywka(mUUID);
         updateUI();
         return view;
     }
 
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode != Activity.RESULT_OK) {
-            if (requestCode == GraActivity.REQUEST_DIALOG) {
-                int contract1 = Integer.parseInt((String) data.getSerializableExtra(GraAddDialog.EXTRA_CONTRACT1));
-                int contract2 = Integer.parseInt((String) data.getSerializableExtra(GraAddDialog.EXTRA_CONTRACT2));
-                int contract3 = Integer.parseInt((String) data.getSerializableExtra(GraAddDialog.EXTRA_CONTRACT3));
-                int contract4 = Integer.parseInt((String) data.getSerializableExtra(GraAddDialog.EXTRA_CONTRACT4));
-                Gra gra = new Gra(mUUID);
-                gra.setContract1(contract1);
-                gra.setContract2(contract2);
-                gra.setContract3(contract3);
-                gra.setContract4(contract4);
-                tysiacLab.addGra(gra);
-                updateUI();
-            }
-        }
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     private void updateUI() {
-        List<Gra> gry = tysiacLab.getGry(mUUID);
-        mAdapter = new GraAdapter(gry);
-        mRecyclerViewGra.setAdapter(mAdapter);
+        List<Gra> gry = mTysiacLab.getGry(mUUID);
+        if (mAdapter == null) {
+            mAdapter = new GraAdapter(gry);
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.setGry(gry);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     private class GraHolder extends RecyclerView.ViewHolder {
-        private TextView mTextViewGra;
+        //deklaracja pól widoku
+        private TextView mTextViewNumerGry;
         private TextView mTextViewPlayer1,mTextViewPlayer2,mTextViewPlayer3,mTextViewPlayer4;
         private TextView mTextViewContract1,mTextViewContract2,mTextViewContract3,mTextViewContract4;
-        private TextView mTextViewBomba1,mTextViewBomba2,mTextViewBomba3,mTextViewBomba4;
+        private TextView mTextViewBomb1,mTextViewBomb2,mTextViewBomb3,mTextViewBomb4;
         private TextView mTextViewScore1,mTextViewScore2,mTextViewScore3,mTextViewScore4;
-
-        private TableRow mTableRowPlayer1,mTableRowPlayer2,mTableRowPlayer3,mTableRowPlayer4;
-
+        private TableRow mTableRowPlayer3,mTableRowPlayer4;
+        //pojedyncza gra
         private Gra mGra;
-        private Rozgrywka mRozgrywka;
 
-        public GraHolder(LayoutInflater inflater, ViewGroup parent) {
+        public GraHolder(LayoutInflater inflater,ViewGroup parent) {
             super(inflater.inflate(R.layout.item_gry,parent,false));
-
-            mRozgrywka = tysiacLab.getRozgrywka(mUUID);
-
-            mTableRowPlayer1 = itemView.findViewById(R.id.table_row_player_1);
-            mTableRowPlayer2 = itemView.findViewById(R.id.table_row_player_2);
             mTableRowPlayer3 = itemView.findViewById(R.id.table_row_player_3);
             mTableRowPlayer4 = itemView.findViewById(R.id.table_row_player_4);
 
-            mTextViewGra = itemView.findViewById(R.id.text_view_numer_gry);
+            mTextViewNumerGry = itemView.findViewById(R.id.text_view_numer_gry);
 
             mTextViewPlayer1 = itemView.findViewById(R.id.text_view_player_1);
             mTextViewPlayer2 = itemView.findViewById(R.id.text_view_player_2);
             mTextViewPlayer3 = itemView.findViewById(R.id.text_view_player_3);
             mTextViewPlayer4 = itemView.findViewById(R.id.text_view_player_4);
-
             mTextViewContract1 = itemView.findViewById(R.id.text_view_contract_1);
             mTextViewContract2 = itemView.findViewById(R.id.text_view_contract_2);
             mTextViewContract3 = itemView.findViewById(R.id.text_view_contract_3);
             mTextViewContract4 = itemView.findViewById(R.id.text_view_contract_4);
-
-            mTextViewBomba1 = itemView.findViewById(R.id.text_view_bomb_1);
-            mTextViewBomba2 = itemView.findViewById(R.id.text_view_bomb_2);
-            mTextViewBomba3 = itemView.findViewById(R.id.text_view_bomb_3);
-            mTextViewBomba4 = itemView.findViewById(R.id.text_view_bomb_4);
-
+            mTextViewBomb1 = itemView.findViewById(R.id.text_view_bomb_1);
+            mTextViewBomb2 = itemView.findViewById(R.id.text_view_bomb_2);
+            mTextViewBomb3 = itemView.findViewById(R.id.text_view_bomb_3);
+            mTextViewBomb4 = itemView.findViewById(R.id.text_view_bomb_4);
             mTextViewScore1 = itemView.findViewById(R.id.text_view_score_1);
             mTextViewScore2 = itemView.findViewById(R.id.text_view_score_2);
             mTextViewScore3 = itemView.findViewById(R.id.text_view_score_3);
@@ -120,53 +103,77 @@ public class GraFragment extends Fragment {
         }
         public void bind(Gra gra) {
             mGra = gra;
-
+            mTextViewNumerGry.setText("Numer gry: " + String.valueOf(gra.getLp()));
+            //ilość graczy
             mTableRowPlayer3.setVisibility(mRozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
             mTableRowPlayer4.setVisibility(mRozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
-
-            mTextViewGra.setText("Gra numer: " + gra.getLp());
+            //gracze
             mTextViewPlayer1.setText(mRozgrywka.getPlayer1());
             mTextViewPlayer2.setText(mRozgrywka.getPlayer2());
             mTextViewPlayer3.setText(mRozgrywka.getPlayer3());
             mTextViewPlayer4.setText(mRozgrywka.getPlayer4());
 
-            mTextViewContract1.setText(String.valueOf(mGra.getContract1()));
-            mTextViewContract2.setText(String.valueOf(mGra.getContract2()));
-            mTextViewContract3.setText(String.valueOf(mGra.getContract3()));
-            mTextViewContract4.setText(String.valueOf(mGra.getContract4()));
+            mTextViewBomb1.setText(mGra.getBomba1() == 0 ? "" : String.valueOf(mGra.getBomba1()));
+            mTextViewBomb2.setText(mGra.getBomba2() == 0 ? "" : String.valueOf(mGra.getBomba2()));
+            mTextViewBomb3.setText(mGra.getBomba3() == 0 ? "" : String.valueOf(mGra.getBomba3()));
+            mTextViewBomb4.setText(mGra.getBomba4() == 0 ? "" : String.valueOf(mGra.getBomba4()));
 
-            mTextViewBomba1.setText(String.valueOf(mGra.getBomba1()));
-            mTextViewBomba2.setText(String.valueOf(mGra.getBomba2()));
-            mTextViewBomba3.setText(String.valueOf(mGra.getBomba3()));
-            mTextViewBomba4.setText(String.valueOf(mGra.getBomba4()));
+            mTextViewContract1.setText(mGra.getContract1() == 0 ? "" : String.valueOf(mGra.getContract1()));
+            mTextViewContract2.setText(mGra.getContract2() == 0 ? "" : String.valueOf(mGra.getContract2()));
+            mTextViewContract3.setText(mGra.getContract3() == 0 ? "" : String.valueOf(mGra.getContract3()));
+            mTextViewContract4.setText(mGra.getContract4() == 0 ? "" : String.valueOf(mGra.getContract4()));
 
-            mTextViewScore1.setText(String.valueOf(gra.getWynik1()));
-            mTextViewScore2.setText(String.valueOf(gra.getWynik2()));
-            mTextViewScore3.setText(String.valueOf(gra.getWynik3()));
-            mTextViewScore4.setText(String.valueOf(gra.getWynik4()));
+            mTextViewScore1.setText(mGra.getWynik1() == 0 ? "" : String.valueOf(mGra.getWynik1()));
+            mTextViewScore2.setText(mGra.getWynik2() == 0 ? "" : String.valueOf(mGra.getWynik2()));
+            mTextViewScore3.setText(mGra.getWynik3() == 0 ? "" : String.valueOf(mGra.getWynik3()));
+            mTextViewScore4.setText(mGra.getWynik4() == 0 ? "" : String.valueOf(mGra.getWynik4()));
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode ==GraActivity.REQUEST_DIALOG) {
+                String sContract1 = (String) data.getSerializableExtra(GraAddDialog.EXTRA_CONTRACT1);
+                String sContract2 = (String) data.getSerializableExtra(GraAddDialog.EXTRA_CONTRACT2);
+                String sContract3 = (String) data.getSerializableExtra(GraAddDialog.EXTRA_CONTRACT3);
+                String sContract4 = (String) data.getSerializableExtra(GraAddDialog.EXTRA_CONTRACT4);
+                Gra gra = new Gra(mUUID);
+                gra.setLp(mTysiacLab.getLastGra(mUUID)+1);
+                gra.setContract1(sContract1.isEmpty() ? 0 : Integer.parseInt(sContract1));
+                gra.setContract2(sContract2.isEmpty() ? 0 : Integer.parseInt(sContract2));
+                gra.setContract3(sContract3.isEmpty() ? 0 : Integer.parseInt(sContract3));
+                gra.setContract4(sContract4.isEmpty() ? 0 : Integer.parseInt(sContract4));
+                mTysiacLab.addGra(gra);
+                updateUI();
+            }
         }
     }
 
     private class GraAdapter extends RecyclerView.Adapter<GraHolder> {
         private List<Gra> mGry;
         public GraAdapter(List<Gra> gry) { mGry = gry; }
+
         @NonNull
         @Override
         public GraHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            return new GraHolder(inflater, viewGroup);
+            return new GraHolder(inflater,viewGroup);
         }
 
         @Override
         public void onBindViewHolder(@NonNull GraHolder graHolder, int i) {
             Gra gra = mGry.get(i);
             graHolder.bind(gra);
-
         }
 
         @Override
         public int getItemCount() {
             return mGry.size();
+        }
+
+        public void setGry(List<Gra> gry) {
+            mGry = gry;
         }
     }
 }

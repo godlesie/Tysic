@@ -10,9 +10,7 @@ import eu.godlesie.jgdlws.tysic.model.Gra;
 import static eu.godlesie.jgdlws.tysic.database.GraDbSchema.*;
 
 public class GraCursorWrapper extends CursorWrapper {
-
     public GraCursorWrapper(Cursor cursor) { super(cursor); }
-
     public Gra getGra() {
         int lp = getInt(getColumnIndex(GraTable.Cols.LP));
         String uuidRozgrywka = getString(getColumnIndex(GraTable.Cols.ROZGRYWKA_UUID));
@@ -33,6 +31,7 @@ public class GraCursorWrapper extends CursorWrapper {
         int bomba4 = getInt(getColumnIndex(GraTable.Cols.BOMBA_4));
 
         Gra gra = new Gra(UUID.fromString(uuidRozgrywka));
+        gra.setLp(lp);
         gra.setContract1(contract1);
         gra.setContract2(contract2);
         gra.setContract3(contract3);
@@ -48,6 +47,6 @@ public class GraCursorWrapper extends CursorWrapper {
         gra.setBomba3(bomba3);
         gra.setBomba4(bomba4);
 
-        return null;
+        return gra;
     }
 }

@@ -74,9 +74,9 @@ public class GraAddDialog extends DialogFragment {
         if (getTargetFragment() == null) { return; }
         Intent intent = new Intent();
         intent.putExtra(EXTRA_CONTRACT1,mEditTextContract1.getText().equals("") ? "0" : mEditTextContract1.getText().toString());
-        intent.putExtra(EXTRA_CONTRACT1,mEditTextContract2.getText().equals("") ? "0" : mEditTextContract2.getText().toString());
-        intent.putExtra(EXTRA_CONTRACT1,mEditTextContract3.getText().equals("") ? "0" : mEditTextContract3.getText().toString());
-        intent.putExtra(EXTRA_CONTRACT1,mEditTextContract4.getText().equals("") ? "0" : mEditTextContract4.getText().toString());
+        intent.putExtra(EXTRA_CONTRACT2,mEditTextContract2.getText().equals("") ? "0" : mEditTextContract2.getText().toString());
+        intent.putExtra(EXTRA_CONTRACT3,mEditTextContract3.getText().equals("") ? "0" : mEditTextContract3.getText().toString());
+        intent.putExtra(EXTRA_CONTRACT4,mEditTextContract4.getText().equals("") ? "0" : mEditTextContract4.getText().toString());
         getTargetFragment()
                 .onActivityResult(getTargetRequestCode(),resultCode,intent);
     }

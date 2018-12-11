@@ -104,6 +104,19 @@ public class TysiacLab {
             cursor.close();
         }
     }
+    public Gra getGra(UUID uuid) {
+        GraCursorWrapper cursor = queryGra(
+                GraTable.Cols.ROZGRYWKA_UUID + " = ?",
+                new String[] { uuid.toString() }
+        );
+        try {
+            if (cursor.getCount() == 0) return null;
+            cursor.moveToFirst();
+            return cursor.getGra();
+        } finally {
+            cursor.close();
+        }
+    }
 
     public List<Rozgrywka> getRozgrywki() {
         List<Rozgrywka> rozgrywki = new ArrayList<>();
@@ -120,26 +133,11 @@ public class TysiacLab {
         return rozgrywki;
     }
 
-    public Gra getGra(UUID uuid, int lp) {
-        GraCursorWrapper cursor = queryGra(
-                GraTable.Cols.ROZGRYWKA_UUID + " = ? AND " + GraTable.Cols.LP + " = ?",
-                new String[] { uuid.toString(), String.valueOf(lp) }
-        );
-        try {
-            if (cursor.getCount() == 0) return null;
-            cursor.moveToFirst();
-            return cursor.getGra();
-        } finally {
-            cursor.close();
-        }
-    }
-
     public List<Gra> getGry(UUID uuid) {
         List<Gra> gry = new ArrayList<>();
         GraCursorWrapper cursor = queryGra(
                 GraTable.Cols.ROZGRYWKA_UUID + " = ?",
-                new String[] { uuid.toString() }
-        );
+                new String[] { uuid.toString() });
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -151,6 +149,7 @@ public class TysiacLab {
         }
         return gry;
     }
+
     public void addRozgrywka(Rozgrywka rozgrywka) {
         ContentValues contentValues = getRozgrywkaValues(rozgrywka);
         mDatabase.insert(RozgrywkaTable.NAME,null,contentValues);
@@ -173,12 +172,45 @@ public class TysiacLab {
                 GraTable.Cols.LP + " = ?",
                 new String[] { lpString });
     }
+    public int getLastGra(UUID uuid) {
+        int lastGra = 0;
+        Cursor cursor = mDatabase.query(
+                GraTable.NAME,
+                new String[] { GraTable.Cols.LP },
+                GraTable.Cols.ROZGRYWKA_UUID + " = ?",
+                new String[] { uuid.toString() },
+                null,null,
+                GraTable.Cols.LP + " ASC"
+                );
+
+        try {
+            if (cursor != null && cursor.getCount()>0) {
+                cursor.moveToLast();
+                lastGra = cursor.getInt(0);
+            } else {
+                lastGra = 0;
+            }
+        } finally {
+            cursor.close();
+        }
+        return lastGra;
+    }
+
     private RozgrywkaCursorWrapper queryRozgrywka(String whereClause, String[] whereArgs) {
-        Cursor cursor = mDatabase.query(RozgrywkaTable.NAME, null,whereClause,whereArgs,null,null,null);
+        Cursor cursor = mDatabase.query(RozgrywkaTable.NAME, null,whereClause,whereArgs,null,null,
+                RozgrywkaTable.Cols.DATE + " DESC");
         return new RozgrywkaCursorWrapper(cursor);
     }
     private GraCursorWrapper queryGra(String whereClause, String[] whereArgs) {
-        Cursor cursor = mDatabase.query(GraTable.NAME,null,whereClause,whereArgs,null,null,null);
+        //Cursor cursor = mDatabase.query(GraTable.NAME,null,whereClause,whereArgs,null,null,null);
+        Cursor cursor = mDatabase.query(GraTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                GraTable.Cols.LP + " DESC"
+                );
         return new GraCursorWrapper(cursor);
     }
 }
