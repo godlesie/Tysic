@@ -2,14 +2,12 @@ package eu.godlesie.jgdlws.tysic;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -116,7 +114,7 @@ public class RozgrywkiFragment extends Fragment {
                 }
             });
             mTextViewEdit = itemView.findViewById(R.id.text_view_edit);
-            mTableLayoutPlayers = itemView.findViewById(R.id.table_layout_players);
+            mTableLayoutPlayers = itemView.findViewById(R.id.table_summary_players);
             mTableRowPlayer3 = itemView.findViewById(R.id.table_row_player_3);
             mTableRowPlayer4 = itemView.findViewById(R.id.table_row_player_4);
 

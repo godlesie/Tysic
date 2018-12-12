@@ -29,6 +29,13 @@ public class GraFragment extends Fragment {
     Rozgrywka mRozgrywka;
     UUID mUUID;
 
+    private TextView mTextViewSummaryPlayer1,mTextViewSummaryPlayer2,mTextViewSummaryPlayer3,mTextViewSummaryPlayer4;
+    private TextView mTextViewSummaryBomb1,mTextViewSummaryBomb2,mTextViewSummaryBomb3,mTextViewSummaryBomb4;
+    private TextView mTextViewSummaryScore1,mTextViewSummaryScore2,mTextViewSummaryScore3,mTextViewSummaryScore4;
+
+    private TableRow mTableRowSummaryPlayer3, mTableRowSummaryPlayer4;
+
+
 
     @Nullable
     @Override
@@ -39,6 +46,31 @@ public class GraFragment extends Fragment {
         mTysiacLab = TysiacLab.get(getActivity());
         mUUID = (UUID) getActivity().getIntent().getSerializableExtra(RozgrywkiFragment.EXTRA_ROZGRYWKA_UUID);
         mRozgrywka = mTysiacLab.getRozgrywka(mUUID);
+
+        mTableRowSummaryPlayer3 = view.findViewById(R.id.table_row_summary_player_3);
+        mTableRowSummaryPlayer3.setVisibility(mRozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
+        mTableRowSummaryPlayer4 = view.findViewById(R.id.table_row_summary_player_4);
+        mTableRowSummaryPlayer4.setVisibility(mRozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
+
+        mTextViewSummaryPlayer1 = view.findViewById(R.id.text_view_summary_player_1);
+        mTextViewSummaryPlayer2 = view.findViewById(R.id.text_view_summary_player_2);
+        mTextViewSummaryPlayer3 = view.findViewById(R.id.text_view_summary_player_3);
+        mTextViewSummaryPlayer4 = view.findViewById(R.id.text_view_summary_player_4);
+
+        mTextViewSummaryBomb1 = view.findViewById(R.id.text_view_summary_bomb_1);
+        mTextViewSummaryBomb2 = view.findViewById(R.id.text_view_summary_bomb_2);
+        mTextViewSummaryBomb3 = view.findViewById(R.id.text_view_summary_bomb_3);
+        mTextViewSummaryBomb4 = view.findViewById(R.id.text_view_summary_bomb_4);
+
+        mTextViewSummaryScore1 = view.findViewById(R.id.text_view_summary_score_1);
+        mTextViewSummaryScore2 = view.findViewById(R.id.text_view_summary_score_2);
+        mTextViewSummaryScore3 = view.findViewById(R.id.text_view_summary_score_3);
+        mTextViewSummaryScore4 = view.findViewById(R.id.text_view_summary_score_4);
+
+        mTextViewSummaryPlayer1.setText(mRozgrywka.getPlayer1());
+        mTextViewSummaryPlayer2.setText(mRozgrywka.getPlayer2());
+        mTextViewSummaryPlayer3.setText(mRozgrywka.getPlayer3());
+        mTextViewSummaryPlayer4.setText(mRozgrywka.getPlayer4());
         updateUI();
         return view;
     }
@@ -56,6 +88,16 @@ public class GraFragment extends Fragment {
 
     private void updateUI() {
         List<Gra> gry = mTysiacLab.getGry(mUUID);
+        mTextViewSummaryScore1.setText(String.valueOf(mRozgrywka.getWynik1()));
+        mTextViewSummaryScore2.setText(String.valueOf(mRozgrywka.getWynik2()));
+        mTextViewSummaryScore3.setText(String.valueOf(mRozgrywka.getWynik3()));
+        mTextViewSummaryScore4.setText(String.valueOf(mRozgrywka.getWynik4()));
+
+        mTextViewSummaryBomb1.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mRozgrywka.getBomb1()));
+        mTextViewSummaryBomb2.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mRozgrywka.getBomb2()));
+        mTextViewSummaryBomb3.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mRozgrywka.getBomb3()));
+        mTextViewSummaryBomb4.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mRozgrywka.getBomb4()));
+
         if (mAdapter == null) {
             mAdapter = new GraAdapter(gry);
             mRecyclerView.setAdapter(mAdapter);
