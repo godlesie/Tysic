@@ -19,4 +19,8 @@
     <string name="dialog_add_gra">Ustaw kontrakt</string>
     <string name="edit">EDYTUJ</string>
     <string name="delete">USUŃ</string>
+    <string name="set_score_1">Wynik gracza 1</string>
+    <string name="set_score_2">Wynik gracza 2</string>
+    <string name="set_score_3">Wynik gracza 3</string>
+    <string name="set_score_4">Wynik gracza 4</string>
 </resources>

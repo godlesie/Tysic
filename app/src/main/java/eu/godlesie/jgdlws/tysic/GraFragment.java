@@ -18,6 +18,7 @@ import android.widget.Toast;
 import java.util.List;
 import java.util.UUID;
 
+import eu.godlesie.jgdlws.tysic.database.GraDbSchema;
 import eu.godlesie.jgdlws.tysic.model.Gra;
 import eu.godlesie.jgdlws.tysic.model.Rozgrywka;
 import eu.godlesie.jgdlws.tysic.model.TysiacLab;
@@ -88,15 +89,16 @@ public class GraFragment extends Fragment {
 
     private void updateUI() {
         List<Gra> gry = mTysiacLab.getGry(mUUID);
-        mTextViewSummaryScore1.setText(String.valueOf(mRozgrywka.getWynik1()));
-        mTextViewSummaryScore2.setText(String.valueOf(mRozgrywka.getWynik2()));
-        mTextViewSummaryScore3.setText(String.valueOf(mRozgrywka.getWynik3()));
-        mTextViewSummaryScore4.setText(String.valueOf(mRozgrywka.getWynik4()));
 
-        mTextViewSummaryBomb1.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mRozgrywka.getBomb1()));
-        mTextViewSummaryBomb2.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mRozgrywka.getBomb2()));
-        mTextViewSummaryBomb3.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mRozgrywka.getBomb3()));
-        mTextViewSummaryBomb4.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mRozgrywka.getBomb4()));
+        mTextViewSummaryScore1.setText(String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_1,mUUID)));
+        mTextViewSummaryScore2.setText(String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_2,mUUID)));
+        mTextViewSummaryScore3.setText(String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_3,mUUID)));
+        mTextViewSummaryScore4.setText(String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_4,mUUID)));
+
+        mTextViewSummaryBomb1.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.BOMBA_1,mUUID)));
+        mTextViewSummaryBomb2.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.BOMBA_2,mUUID)));
+        mTextViewSummaryBomb3.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.BOMBA_3,mUUID)));
+        mTextViewSummaryBomb4.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.BOMBA_4,mUUID)));
 
         if (mAdapter == null) {
             mAdapter = new GraAdapter(gry);

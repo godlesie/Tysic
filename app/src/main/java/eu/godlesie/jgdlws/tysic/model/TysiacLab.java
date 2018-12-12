@@ -195,6 +195,24 @@ public class TysiacLab {
         }
         return lastGra;
     }
+    public int getSummaryWynik(String columnIndex, UUID uuid) {
+        int summary = 0;
+        Cursor cursor = mDatabase.query(GraTable.NAME, new String[] {columnIndex},
+                GraTable.Cols.ROZGRYWKA_UUID + " = ?",
+                new String[] {uuid.toString()},
+                null,null,null
+                );
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                summary += cursor.getInt(0);
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+        return summary;
+    }
 
     private RozgrywkaCursorWrapper queryRozgrywka(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(RozgrywkaTable.NAME, null,whereClause,whereArgs,null,null,
@@ -202,7 +220,6 @@ public class TysiacLab {
         return new RozgrywkaCursorWrapper(cursor);
     }
     private GraCursorWrapper queryGra(String whereClause, String[] whereArgs) {
-        //Cursor cursor = mDatabase.query(GraTable.NAME,null,whereClause,whereArgs,null,null,null);
         Cursor cursor = mDatabase.query(GraTable.NAME,
                 null,
                 whereClause,
