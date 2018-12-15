@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import java.util.UUID;
 
+import eu.godlesie.jgdlws.tysic.model.Gra;
 import eu.godlesie.jgdlws.tysic.model.Rozgrywka;
 import eu.godlesie.jgdlws.tysic.model.TysiacLab;
 
@@ -23,6 +24,7 @@ public class GraSetWynikDialog extends DialogFragment {
     public static final String EXTRA_WYNIK2 = "eu.godlesie.jgdlws.wynik2";
     public static final String EXTRA_WYNIK3 = "eu.godlesie.jgdlws.wynik3";
     public static final String EXTRA_WYNIK4 = "eu.godlesie.jgdlws.wynik4";
+    public static final int REQUEST_WYNIK = 1;
 
     private View mView;
 
@@ -31,9 +33,14 @@ public class GraSetWynikDialog extends DialogFragment {
     private EditText mEditTextWynik3;
     private EditText mEditTextWynik4;
 
+    private static final String ARGS_UUID = "uuid";
+    private static final String ARGS_LP = "gra_lp";
+
     private UUID mUUID;
+    private int lp;
     private TysiacLab mTysiacLab;
     private Rozgrywka mRozgrywka;
+    private Gra mGra;
 
     //TODO - przekaż do dialogu dane uuid z rozgrywki i dobierz ilość zawodników
     //TODO - zablokuj klawisz ok jeśli nic nie podasz.
@@ -43,20 +50,20 @@ public class GraSetWynikDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         mView = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_add_gra,null);
+        mUUID = (UUID) getArguments().getSerializable(ARGS_UUID);
+        lp = (int) getArguments().getSerializable(ARGS_LP);
         mEditTextWynik1 = mView.findViewById(R.id.edit_text_wynik1);
         mEditTextWynik2 = mView.findViewById(R.id.edit_text_wynik2);
         mEditTextWynik3 = mView.findViewById(R.id.edit_text_wynik3);
         mEditTextWynik4 = mView.findViewById(R.id.edit_text_contract4);
 
         mTysiacLab = TysiacLab.get(getActivity());
-/*
         mRozgrywka = mTysiacLab.getRozgrywka(mUUID);
 
         mEditTextWynik1.setVisibility(mRozgrywka.getPlayer1().isEmpty() ? View.GONE : View.VISIBLE);
         mEditTextWynik2.setVisibility(mRozgrywka.getPlayer2().isEmpty() ? View.GONE : View.VISIBLE);
         mEditTextWynik3.setVisibility(mRozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
         mEditTextWynik4.setVisibility(mRozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
-*/
 
         return new AlertDialog.Builder(getActivity())
                 .setView(mView)
@@ -64,14 +71,23 @@ public class GraSetWynikDialog extends DialogFragment {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        sendResult(Activity.RESULT_OK);
+                        sendResult();
                     }
                 })
                 .setNeutralButton(android.R.string.cancel,null)
                 .create();
     }
-    private void sendResult(int resultCode) {
-
+    private void sendResult() {
+        Gra gra = mTysiacLab.getGra(mUUID,lp);
+        int wynik1 = Integer.parseInt(mEditTextWynik1.getText().toString().isEmpty() ? "0" : mEditTextWynik1.getText().toString());
+        int wynik2 = Integer.parseInt(mEditTextWynik2.getText().toString().isEmpty() ? "0" : mEditTextWynik2.getText().toString());
+        int wynik3 = Integer.parseInt(mEditTextWynik3.getText().toString().isEmpty() ? "0" : mEditTextWynik3.getText().toString());
+        int wynik4 = Integer.parseInt(mEditTextWynik4.getText().toString().isEmpty() ? "0" : mEditTextWynik4.getText().toString());
+        gra.setWynik1(wynik1);
+        gra.setWynik2(wynik2);
+        gra.setWynik3(wynik3);
+        gra.setWynik4(wynik4);
+        mTysiacLab.updateGra(gra);
         if (getTargetFragment() == null) { return; }
         Intent intent = new Intent();
         intent.putExtra(EXTRA_WYNIK1, mEditTextWynik1.getText().equals("") ? "0" : mEditTextWynik1.getText().toString());
@@ -79,6 +95,15 @@ public class GraSetWynikDialog extends DialogFragment {
         intent.putExtra(EXTRA_WYNIK3, mEditTextWynik3.getText().equals("") ? "0" : mEditTextWynik3.getText().toString());
         intent.putExtra(EXTRA_WYNIK4, mEditTextWynik4.getText().equals("") ? "0" : mEditTextWynik4.getText().toString());
         getTargetFragment()
-                .onActivityResult(getTargetRequestCode(),resultCode,intent);
+                .onActivityResult(getTargetRequestCode(),Activity.RESULT_OK,intent);
+    }
+
+    public static GraSetWynikDialog newInstance(UUID uuid, int graLp) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARGS_UUID,uuid);
+        args.putSerializable(ARGS_LP,graLp);
+        GraSetWynikDialog fragment = new GraSetWynikDialog();
+        fragment.setArguments(args);
+        return fragment;
     }
 }

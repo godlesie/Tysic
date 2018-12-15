@@ -97,7 +97,6 @@ public class RozgrywkiFragment extends Fragment {
 
         private TableRow mTableRowPlayer3,mTableRowPlayer4;
         private TableLayout mTableLayoutPlayers;
-        private TextView mTextViewDelete, mTextViewEdit;
 
         private Rozgrywka mRozgrywka;
         private static final String DATE_FORMAT = "EEE, MMM dd: HH:MM";
@@ -106,14 +105,6 @@ public class RozgrywkiFragment extends Fragment {
         public RozgrywkaHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_rozgywki, parent,false));
 
-            mTextViewDelete = itemView.findViewById(R.id.text_view_delete);
-            mTextViewDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(),"delete",Toast.LENGTH_SHORT).show();
-                }
-            });
-            mTextViewEdit = itemView.findViewById(R.id.text_view_edit);
             mTableLayoutPlayers = itemView.findViewById(R.id.table_summary_players);
             mTableRowPlayer3 = itemView.findViewById(R.id.table_row_player_3);
             mTableRowPlayer4 = itemView.findViewById(R.id.table_row_player_4);

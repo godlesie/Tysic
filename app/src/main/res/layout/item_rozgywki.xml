@@ -50,6 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:text="@string/players"
+                    tools:textColor="@android:color/background_light"
                     android:textStyle="bold" />
 
                 <TextView
@@ -58,6 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/bombs"
+                    android:textColor="@android:color/background_light"
                     android:textStyle="bold" />
 
                 <TextView
@@ -67,6 +69,7 @@
                     android:layout_weight="1"
                     android:text="@string/score"
                     android:textAlignment="viewEnd"
+                    android:textColor="@android:color/background_light"
                     android:textStyle="bold" />
             </TableRow>
 
@@ -188,27 +191,34 @@
 
         </TableLayout>
 
-        <TextView
-            android:id="@+id/text_view_edit"
+        <Button
+            android:id="@+id/btn_delete"
             android:layout_width="wrap_content"
-            style="?android:listSeparatorTextViewStyle"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/edit"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/delete"
+            android:textColor="@android:color/background_light"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/table_summary_players" />
 
-        <TextView
-            android:id="@+id/text_view_delete"
-            style="?android:listSeparatorTextViewStyle"
+        <Button
+            android:id="@+id/btn_edit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:text="@string/delete"
-            app:layout_constraintEnd_toStartOf="@+id/text_view_edit"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/edit"
+            android:textColor="@android:color/background_light"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_delete"
             app:layout_constraintTop_toBottomOf="@+id/table_summary_players" />
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

@@ -104,12 +104,14 @@ public class TysiacLab {
             cursor.close();
         }
     }
-    public Gra getGra(UUID uuid) {
+    public Gra getGra(UUID uuid,int lp) {
+        String whereClause = GraTable.Cols.ROZGRYWKA_UUID + " = ? AND  " + GraTable.Cols.LP + " = ?";
         GraCursorWrapper cursor = queryGra(
-                GraTable.Cols.ROZGRYWKA_UUID + " = ?",
-                new String[] { uuid.toString() }
+                GraTable.Cols.ROZGRYWKA_UUID + " = ? AND  " + GraTable.Cols.LP + " LIKE ?",
+                new String[] { uuid.toString(), String.valueOf(lp)}
         );
         try {
+            int ccc = cursor.getCount();
             if (cursor.getCount() == 0) return null;
             cursor.moveToFirst();
             return cursor.getGra();
@@ -167,10 +169,11 @@ public class TysiacLab {
     }
     public void updateGra(Gra gra) {
         String lpString = String.valueOf(gra.getLp());
+        String rozgrywkaUUID = gra.getUUIDRozgrywka().toString();
         ContentValues contentValues = getGraValues(gra);
         mDatabase.update(GraTable.NAME, contentValues,
-                GraTable.Cols.LP + " = ?",
-                new String[] { lpString });
+                GraTable.Cols.LP + " LIKE ? AND " + GraTable.Cols.ROZGRYWKA_UUID + " = ?",
+                new String[] { lpString, rozgrywkaUUID });
     }
     public int getLastGra(UUID uuid) {
         int lastGra = 0;

@@ -26,6 +26,7 @@ import eu.godlesie.jgdlws.tysic.model.TysiacLab;
 public class GraFragment extends Fragment {
     private static final String SET_WYNIK_DIALOG = "set_wynik";
 
+
     RecyclerView mRecyclerView;
     GraAdapter mAdapter;
     TysiacLab mTysiacLab;
@@ -82,16 +83,24 @@ public class GraFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        updateUI();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        updateUI();
     }
 
     private void updateUI() {
         List<Gra> gry = mTysiacLab.getGry(mUUID);
-
+        if (mAdapter == null) {
+            mAdapter = new GraAdapter(gry);
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.setGry(gry);
+            mAdapter.notifyDataSetChanged();
+        }
         mTextViewSummaryScore1.setText(String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_1,mUUID)));
         mTextViewSummaryScore2.setText(String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_2,mUUID)));
         mTextViewSummaryScore3.setText(String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_3,mUUID)));
@@ -102,13 +111,7 @@ public class GraFragment extends Fragment {
         mTextViewSummaryBomb3.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.BOMBA_3,mUUID)));
         mTextViewSummaryBomb4.setText(mRozgrywka.getBomb1() == 0 ? "" : String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.BOMBA_4,mUUID)));
 
-        if (mAdapter == null) {
-            mAdapter = new GraAdapter(gry);
-            mRecyclerView.setAdapter(mAdapter);
-        } else {
-            mAdapter.setGry(gry);
-            mAdapter.notifyDataSetChanged();
-        }
+
     }
 
 
@@ -146,18 +149,20 @@ public class GraFragment extends Fragment {
             mTextViewScore2 = itemView.findViewById(R.id.text_view_score_2);
             mTextViewScore3 = itemView.findViewById(R.id.text_view_score_3);
             mTextViewScore4 = itemView.findViewById(R.id.text_view_score_4);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentManager fm = getFragmentManager();
-                    GraSetWynikDialog dialog = new GraSetWynikDialog();
-                    //dialog.setTargetFragment(this,SET_WYNIK_DIALOG);
-                    dialog.show(fm,SET_WYNIK_DIALOG);
-                }
-            });
+
         }
         public void bind(Gra gra) {
             mGra = gra;
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager manager = getFragmentManager();
+                    GraSetWynikDialog dialog = GraSetWynikDialog.newInstance(mUUID,gra.getLp());
+                    dialog.setTargetFragment(GraFragment.this,GraSetWynikDialog.REQUEST_WYNIK);
+                    dialog.show(manager,SET_WYNIK_DIALOG);
+                    //updateUI();
+                }
+            });
             mTextViewNumerGry.setText("Numer gry: " + String.valueOf(gra.getLp()));
             //ilość graczy
             mTableRowPlayer3.setVisibility(mRozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
@@ -187,8 +192,8 @@ public class GraFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode ==GraActivity.ADD_GRA_DIALOG) {
+        if (resultCode != Activity.RESULT_OK) { return; }
+        if (requestCode ==GraActivity.ADD_GRA_DIALOG) {
                 String sContract1 = (String) data.getSerializableExtra(GraAddDialog.EXTRA_CONTRACT1);
                 String sContract2 = (String) data.getSerializableExtra(GraAddDialog.EXTRA_CONTRACT2);
                 String sContract3 = (String) data.getSerializableExtra(GraAddDialog.EXTRA_CONTRACT3);
@@ -201,7 +206,9 @@ public class GraFragment extends Fragment {
                 gra.setContract4(sContract4.isEmpty() ? 0 : Integer.parseInt(sContract4));
                 mTysiacLab.addGra(gra);
                 updateUI();
-            }
+        }
+        if (requestCode == GraSetWynikDialog.REQUEST_WYNIK) {
+            updateUI();
         }
     }
 
