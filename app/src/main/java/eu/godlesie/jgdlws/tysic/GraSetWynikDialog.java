@@ -49,13 +49,13 @@ public class GraSetWynikDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         mView = LayoutInflater.from(getActivity())
-                .inflate(R.layout.dialog_add_gra,null);
+                .inflate(R.layout.dialog_set_wynik,null);
         mUUID = (UUID) getArguments().getSerializable(ARGS_UUID);
         lp = (int) getArguments().getSerializable(ARGS_LP);
         mEditTextWynik1 = mView.findViewById(R.id.edit_text_wynik1);
         mEditTextWynik2 = mView.findViewById(R.id.edit_text_wynik2);
         mEditTextWynik3 = mView.findViewById(R.id.edit_text_wynik3);
-        mEditTextWynik4 = mView.findViewById(R.id.edit_text_contract4);
+        mEditTextWynik4 = mView.findViewById(R.id.edit_text_wynik4);
 
         mTysiacLab = TysiacLab.get(getActivity());
         mRozgrywka = mTysiacLab.getRozgrywka(mUUID);
@@ -67,7 +67,7 @@ public class GraSetWynikDialog extends DialogFragment {
 
         return new AlertDialog.Builder(getActivity())
                 .setView(mView)
-                .setTitle(R.string.dialog_add_gra)
+                .setTitle(R.string.dialog_set_wynik)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

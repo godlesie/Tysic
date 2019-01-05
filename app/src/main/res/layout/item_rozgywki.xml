@@ -40,8 +40,8 @@
             <TableRow
                 android:id="@+id/table_row_title"
                 android:layout_width="match_parent"
+                style="?android:listSeparatorTextViewStyle"
                 android:layout_height="match_parent"
-                android:background="@color/colorAccent"
                 android:padding="2dp">
 
                 <TextView
@@ -50,7 +50,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:text="@string/players"
-                    tools:textColor="@android:color/background_light"
                     android:textStyle="bold" />
 
                 <TextView
@@ -59,7 +58,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/bombs"
-                    android:textColor="@android:color/background_light"
                     android:textStyle="bold" />
 
                 <TextView
@@ -69,7 +67,6 @@
                     android:layout_weight="1"
                     android:text="@string/score"
                     android:textAlignment="viewEnd"
-                    android:textColor="@android:color/background_light"
                     android:textStyle="bold" />
             </TableRow>
 
