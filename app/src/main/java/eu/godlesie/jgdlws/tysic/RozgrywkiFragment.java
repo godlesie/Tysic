@@ -1,6 +1,8 @@
 package eu.godlesie.jgdlws.tysic;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -14,6 +16,7 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -98,6 +101,8 @@ public class RozgrywkiFragment extends Fragment {
         private TableRow mTableRowPlayer3,mTableRowPlayer4;
         private TableLayout mTableLayoutPlayers;
 
+        private Button mButtonDelete;
+
         private Rozgrywka mRozgrywka;
         private static final String DATE_FORMAT = "EEE, MMM dd: HH:MM";
 
@@ -126,6 +131,7 @@ public class RozgrywkiFragment extends Fragment {
             mTextViewBomb4 = itemView.findViewById(R.id.text_view_bomb_4);
             mTextViewScore4 = itemView.findViewById(R.id.text_view_score_4);
 
+            mButtonDelete = itemView.findViewById(R.id.btn_delete);
             mTableLayoutPlayers.setOnClickListener(this);
 
         }
@@ -158,6 +164,23 @@ public class RozgrywkiFragment extends Fragment {
             mTextViewPlayer4.setTextColor(rozgrywka.getWynik4() >= 1000 ? Color.GREEN : Color.BLACK);
             mTextViewBomb4.setText(rozgrywka.getBomb4() == 0 ? "" : String.valueOf(rozgrywka.getBomb4()));
             mTextViewScore4.setText(String.valueOf(rozgrywka.getWynik4()));
+            mButtonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(getActivity()
+                    ).setTitle("test")
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            tysiacLab.deleteRozgrywka(rozgrywka);
+                            updateUI();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel,null)
+                    .create().show();
+                }
+            });
+
         }
 
         @Override

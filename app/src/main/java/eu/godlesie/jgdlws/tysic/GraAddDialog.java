@@ -43,9 +43,9 @@ public class GraAddDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         mView = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_add_gra,null);
-        mEditTextContract1 = mView.findViewById(R.id.edit_text_wynik1);
-        mEditTextContract2 = mView.findViewById(R.id.edit_text_wynik2);
-        mEditTextContract3 = mView.findViewById(R.id.edit_text_wynik3);
+        mEditTextContract1 = mView.findViewById(R.id.edit_text_player1);
+        mEditTextContract2 = mView.findViewById(R.id.edit_text_player2);
+        mEditTextContract3 = mView.findViewById(R.id.edit_text_player3);
         mEditTextContract4 = mView.findViewById(R.id.edit_text_contract4);
 
         mTysiacLab = TysiacLab.get(getActivity());

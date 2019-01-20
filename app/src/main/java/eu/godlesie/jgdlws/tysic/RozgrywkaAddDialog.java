@@ -44,9 +44,9 @@ public class RozgrywkaAddDialog extends DialogFragment {
                 .create();
     }
     private void sendResult(int resultCode) {
-        mEditTextPlayer1 = mView.findViewById(R.id.edit_text_wynik1);
-        mEditTextPlayer2 = mView.findViewById(R.id.edit_text_wynik2);
-        mEditTextPlayer3 = mView.findViewById(R.id.edit_text_wynik3);
+        mEditTextPlayer1 = mView.findViewById(R.id.edit_text_player1);
+        mEditTextPlayer2 = mView.findViewById(R.id.edit_text_player2);
+        mEditTextPlayer3 = mView.findViewById(R.id.edit_text_player3);
         mEditTextPlayer4 = mView.findViewById(R.id.edit_text_player4);
         if (getTargetFragment() == null) {
             return;

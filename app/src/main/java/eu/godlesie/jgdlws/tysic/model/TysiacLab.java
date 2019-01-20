@@ -175,6 +175,19 @@ public class TysiacLab {
                 GraTable.Cols.LP + " LIKE ? AND " + GraTable.Cols.ROZGRYWKA_UUID + " = ?",
                 new String[] { lpString, rozgrywkaUUID });
     }
+    public void deleteGra(Gra gra) {
+
+    }
+    public void deleteRozgrywka(Rozgrywka rozgrywka) {
+        mDatabase.delete(RozgrywkaTable.NAME,
+                RozgrywkaTable.Cols.UUID + " = ?",
+                new String[] {rozgrywka.getUUID().toString()}
+        );
+        mDatabase.delete(GraTable.NAME,
+                GraTable.Cols.ROZGRYWKA_UUID + " = ?",
+                new String[] {rozgrywka.getUUID().toString()}
+        );
+    }
     public int getLastGra(UUID uuid) {
         int lastGra = 0;
         Cursor cursor = mDatabase.query(

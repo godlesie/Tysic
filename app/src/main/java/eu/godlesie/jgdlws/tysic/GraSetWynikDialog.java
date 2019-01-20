@@ -52,9 +52,9 @@ public class GraSetWynikDialog extends DialogFragment {
                 .inflate(R.layout.dialog_set_wynik,null);
         mUUID = (UUID) getArguments().getSerializable(ARGS_UUID);
         lp = (int) getArguments().getSerializable(ARGS_LP);
-        mEditTextWynik1 = mView.findViewById(R.id.edit_text_wynik1);
-        mEditTextWynik2 = mView.findViewById(R.id.edit_text_wynik2);
-        mEditTextWynik3 = mView.findViewById(R.id.edit_text_wynik3);
+        mEditTextWynik1 = mView.findViewById(R.id.edit_text_player1);
+        mEditTextWynik2 = mView.findViewById(R.id.edit_text_player2);
+        mEditTextWynik3 = mView.findViewById(R.id.edit_text_player3);
         mEditTextWynik4 = mView.findViewById(R.id.edit_text_wynik4);
 
         mTysiacLab = TysiacLab.get(getActivity());
