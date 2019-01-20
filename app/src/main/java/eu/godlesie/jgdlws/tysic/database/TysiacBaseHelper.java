@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class TysiacBaseHelper extends SQLiteOpenHelper {
-    public static final int VERSION = 1;
-    public static final String DATABASE_NAME = "tysiac";
+    private  static final int VERSION = 1;
+    private static final String DATABASE_NAME = "tysiac";
 
     public TysiacBaseHelper(Context context) {
         super(context,DATABASE_NAME,null,VERSION);
