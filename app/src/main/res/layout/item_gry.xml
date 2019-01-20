@@ -18,9 +18,7 @@
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:text="tytul"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,26 +28,24 @@
             android:id="@+id/table_summary_players"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_view_numer_gry">
 
             <TableRow
                 android:id="@+id/table_row_title"
-                android:padding="2dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:padding="2dp">
 
                 <TextView
                     android:id="@+id/text_view_static_players"
-                    android:layout_weight="3"
                     android:layout_width="wrap_content"
-                    android:textStyle="bold"
                     android:layout_height="wrap_content"
-                    android:text="@string/players" />
+                    android:layout_weight="3"
+                    android:text="@string/players"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/text_view_static_cpntract"
@@ -61,40 +57,40 @@
 
                 <TextView
                     android:id="@+id/text_view_static_bombs"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/bombs" />
+                    android:layout_weight="1"
+                    android:text="@string/bombs"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/text_view_static_score"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:textAlignment="viewEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/score" />
+                    android:layout_weight="1"
+                    android:text="@string/score"
+                    android:textAlignment="viewEnd"
+                    android:textStyle="bold" />
             </TableRow>
 
             <TableRow
                 android:id="@+id/table_row_player_1"
                 android:layout_width="match_parent"
-                android:padding="2dp"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:padding="2dp">
 
                 <TextView
                     android:id="@+id/text_view_player_1"
-                    android:layout_weight="3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="3"
                     android:text="TextView" />
 
                 <TextView
                     android:id="@+id/text_view_contract_1"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="TextView" />
 
                 <TextView
@@ -106,31 +102,31 @@
 
                 <TextView
                     android:id="@+id/text_view_score_1"
-                    android:layout_weight="1"
-                    android:textAlignment="viewEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textAlignment="viewEnd" />
             </TableRow>
 
             <TableRow
                 android:id="@+id/table_row_player_2"
-                android:padding="2dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:padding="2dp">
 
                 <TextView
                     android:id="@+id/text_view_player_2"
-                    android:layout_weight="3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="3"
                     android:text="TextView" />
 
                 <TextView
                     android:id="@+id/text_view_contract_2"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="TextView" />
 
                 <TextView
@@ -151,22 +147,22 @@
 
             <TableRow
                 android:id="@+id/table_row_player_3"
-                android:padding="2dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:padding="2dp">
 
                 <TextView
                     android:id="@+id/text_view_player_3"
-                    android:layout_weight="3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="3"
                     android:text="TextView" />
 
                 <TextView
                     android:id="@+id/text_view_contract_3"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="TextView" />
 
                 <TextView
@@ -187,22 +183,22 @@
 
             <TableRow
                 android:id="@+id/table_row_player_4"
-                android:padding="2dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:padding="2dp">
 
                 <TextView
                     android:id="@+id/text_view_player_4"
-                    android:layout_weight="3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="3"
                     android:text="TextView" />
 
                 <TextView
                     android:id="@+id/text_view_contract_4"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="TextView" />
 
                 <TextView
