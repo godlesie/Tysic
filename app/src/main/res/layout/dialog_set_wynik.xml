@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/edit_text_wynik1"
+        android:id="@+id/edit_text_player1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/edit_text_wynik2"
+        android:id="@+id/edit_text_player2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -30,10 +30,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_wynik1" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_player1" />
 
     <EditText
-        android:id="@+id/edit_text_wynik3"
+        android:id="@+id/edit_text_player3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -44,7 +44,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_wynik2" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_player2" />
 
     <EditText
         android:id="@+id/edit_text_wynik4"
@@ -58,6 +58,6 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_wynik3" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_player3" />
 
 </android.support.constraint.ConstraintLayout>
