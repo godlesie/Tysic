@@ -19,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="tytul"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -83,29 +82,25 @@
                     android:id="@+id/text_view_player_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="TextView" />
+                    android:layout_weight="3" />
 
                 <TextView
                     android:id="@+id/text_view_contract_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/text_view_bomb_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/text_view_score_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
                     android:textAlignment="viewEnd" />
             </TableRow>
 
@@ -119,29 +114,25 @@
                     android:id="@+id/text_view_player_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="TextView" />
+                    android:layout_weight="3" />
 
                 <TextView
                     android:id="@+id/text_view_contract_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/text_view_bomb_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/text_view_score_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
                     android:textAlignment="viewEnd" />
             </TableRow>
 
@@ -155,29 +146,25 @@
                     android:id="@+id/text_view_player_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="TextView" />
+                    android:layout_weight="3" />
 
                 <TextView
                     android:id="@+id/text_view_contract_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/text_view_bomb_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/text_view_score_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
                     android:textAlignment="viewEnd" />
             </TableRow>
 
@@ -191,29 +178,25 @@
                     android:id="@+id/text_view_player_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="TextView" />
+                    android:layout_weight="3" />
 
                 <TextView
                     android:id="@+id/text_view_contract_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/text_view_bomb_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/text_view_score_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
                     android:textAlignment="viewEnd" />
             </TableRow>
 

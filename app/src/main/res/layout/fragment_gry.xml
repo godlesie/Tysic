@@ -59,22 +59,19 @@
                 android:id="@+id/text_view_summary_player_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="TextView" />
+                android:layout_weight="3" />
 
             <TextView
                 android:id="@+id/text_view_summary_bomb_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/text_view_summary_score_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView"
                 android:textAlignment="viewEnd" />
         </TableRow>
 
@@ -88,22 +85,19 @@
                 android:id="@+id/text_view_summary_player_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="TextView" />
+                android:layout_weight="3" />
 
             <TextView
                 android:id="@+id/text_view_summary_bomb_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/text_view_summary_score_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView"
                 android:textAlignment="viewEnd" />
         </TableRow>
 
@@ -117,22 +111,19 @@
                 android:id="@+id/text_view_summary_player_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="TextView" />
+                android:layout_weight="3" />
 
             <TextView
                 android:id="@+id/text_view_summary_bomb_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/text_view_summary_score_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView"
                 android:textAlignment="viewEnd" />
         </TableRow>
 
@@ -146,22 +137,19 @@
                 android:id="@+id/text_view_summary_player_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="TextView" />
+                android:layout_weight="3" />
 
             <TextView
                 android:id="@+id/text_view_summary_bomb_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/text_view_summary_score_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView"
                 android:textAlignment="viewEnd" />
         </TableRow>
 
