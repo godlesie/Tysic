@@ -88,62 +88,47 @@ public class TysiacLab {
     }
 
     public Rozgrywka getRozgrywka(UUID uuid) {
-        RozgrywkaCursorWrapper cursor = queryRozgrywka(
-                RozgrywkaTable.Cols.UUID + " = ?",
-                new String[] { uuid.toString() }
-        );
-        try {
+        try (RozgrywkaCursorWrapper cursor = queryRozgrywka(RozgrywkaTable.Cols.UUID + " = ?", new String[]{uuid.toString()}))
+        {
             if (cursor.getCount() == 0) return null;
             cursor.moveToFirst();
             return cursor.getRozgrywka();
-        } finally {
-            cursor.close();
         }
     }
     public Gra getGra(UUID uuid,int lp) {
-        //String whereClause = GraTable.Cols.ROZGRYWKA_UUID + " = ? AND  " + GraTable.Cols.LP + " = ?";
-        GraCursorWrapper cursor = queryGra(
+        try (GraCursorWrapper cursor = queryGra(
                 GraTable.Cols.ROZGRYWKA_UUID + " = ? AND  " + GraTable.Cols.LP + " LIKE ?",
-                new String[] { uuid.toString(), String.valueOf(lp)}
-        );
-        try {
+                new String[]{uuid.toString(), String.valueOf(lp)}
+        )) {
             //int ccc = cursor.getCount();
             if (cursor.getCount() == 0) return null;
             cursor.moveToFirst();
             return cursor.getGra();
-        } finally {
-            cursor.close();
         }
     }
 
     public List<Rozgrywka> getRozgrywki() {
         List<Rozgrywka> rozgrywki = new ArrayList<>();
-        RozgrywkaCursorWrapper cursor = queryRozgrywka(null,null);
-        try {
+        try (RozgrywkaCursorWrapper cursor = queryRozgrywka(null, null)) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 rozgrywki.add(cursor.getRozgrywka());
                 cursor.moveToNext();
             }
-        } finally {
-            cursor.close();
         }
         return rozgrywki;
     }
 
     public List<Gra> getGry(UUID uuid) {
         List<Gra> gry = new ArrayList<>();
-        GraCursorWrapper cursor = queryGra(
+        try (GraCursorWrapper cursor = queryGra(
                 GraTable.Cols.ROZGRYWKA_UUID + " = ?",
-                new String[] { uuid.toString() });
-        try {
+                new String[]{uuid.toString()})) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 gry.add(cursor.getGra());
                 cursor.moveToNext();
             }
-        } finally {
-            cursor.close();
         }
         return gry;
     }
@@ -156,13 +141,15 @@ public class TysiacLab {
         ContentValues contentValues = getGraValues(gra);
         mDatabase.insert(GraTable.NAME,null,contentValues);
     }
-    public void updateRozgrywka(Rozgrywka rozgrywka) {
+
+    /*public void updateRozgrywka(Rozgrywka rozgrywka) {
         String uuidString = rozgrywka.getUUID().toString();
         ContentValues contentValues = getRozgrywkaValues(rozgrywka);
         mDatabase.update(RozgrywkaTable.NAME,contentValues,
                 RozgrywkaTable.Cols.UUID + " = ?",
                 new String[] {uuidString});
-    }
+    }*/
+
     public void updateGra(Gra gra) {
         String lpString = String.valueOf(gra.getLp());
         String rozgrywkaUUID = gra.getUUIDRozgrywka().toString();
@@ -171,9 +158,9 @@ public class TysiacLab {
                 GraTable.Cols.LP + " LIKE ? AND " + GraTable.Cols.ROZGRYWKA_UUID + " = ?",
                 new String[] { lpString, rozgrywkaUUID });
     }
-    public void deleteGra(Gra gra) {
+    /*public void deleteGra(Gra gra) {
+    }*/
 
-    }
     public void deleteRozgrywka(Rozgrywka rozgrywka) {
         mDatabase.delete(RozgrywkaTable.NAME,
                 RozgrywkaTable.Cols.UUID + " = ?",
@@ -186,42 +173,36 @@ public class TysiacLab {
     }
     public int getLastGra(UUID uuid) {
         int lastGra;
-        Cursor cursor = mDatabase.query(
-                GraTable.NAME,
-                new String[] { GraTable.Cols.LP },
-                GraTable.Cols.ROZGRYWKA_UUID + " = ?",
-                new String[] { uuid.toString() },
-                null,null,
-                GraTable.Cols.LP + " ASC"
-                );
 
-        try {
-            if (cursor != null && cursor.getCount()>0) {
+        try (Cursor cursor = mDatabase.query(
+                GraTable.NAME,
+                new String[]{GraTable.Cols.LP},
+                GraTable.Cols.ROZGRYWKA_UUID + " = ?",
+                new String[]{uuid.toString()},
+                null, null,
+                GraTable.Cols.LP + " ASC"
+        )) {
+            if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToLast();
                 lastGra = cursor.getInt(0);
             } else {
                 lastGra = 0;
             }
-        } finally {
-            cursor.close();
         }
         return lastGra;
     }
     public int getSummaryWynik(String columnIndex, UUID uuid) {
         int summary = 0;
-        Cursor cursor = mDatabase.query(GraTable.NAME, new String[] {columnIndex},
+        try (Cursor cursor = mDatabase.query(GraTable.NAME, new String[]{columnIndex},
                 GraTable.Cols.ROZGRYWKA_UUID + " = ?",
-                new String[] {uuid.toString()},
-                null,null,null
-                );
-        try {
+                new String[]{uuid.toString()},
+                null, null, null
+        )) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 summary += cursor.getInt(0);
                 cursor.moveToNext();
             }
-        } finally {
-            cursor.close();
         }
         return summary;
     }
