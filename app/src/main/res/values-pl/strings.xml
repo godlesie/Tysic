@@ -24,4 +24,6 @@
     <string name="set_score_3">Wynik gracza 3</string>
     <string name="set_score_4">Wynik gracza 4</string>
     <string name="dialog_set_wynik">Ustaw wynik</string>
+    <string name="number_of_play">"Numer gry: "</string>
+    <string name="score_title">"Rozgrywka: "</string>
 </resources>

@@ -6,26 +6,22 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
 import eu.godlesie.jgdlws.tysic.database.GraCursorWrapper;
-import eu.godlesie.jgdlws.tysic.database.GraDbSchema;
 import eu.godlesie.jgdlws.tysic.database.RozgrywkaCursorWrapper;
-import eu.godlesie.jgdlws.tysic.database.RozgrywkaDbSchema;
 import eu.godlesie.jgdlws.tysic.database.TysiacBaseHelper;
 
-import static eu.godlesie.jgdlws.tysic.database.GraDbSchema.*;
-import static eu.godlesie.jgdlws.tysic.database.RozgrywkaDbSchema.*;
+import static eu.godlesie.jgdlws.tysic.database.GraDbSchema.GraTable;
+import static eu.godlesie.jgdlws.tysic.database.RozgrywkaDbSchema.RozgrywkaTable;
 
 public class TysiacLab {
 
     private static TysiacLab sTysiacLab;
 
     //do bazy danych
-    private Context mContext;
+    //private Context mContext;
     private SQLiteDatabase mDatabase;
 
     //wartości tabeli rozgrywki
@@ -80,8 +76,8 @@ public class TysiacLab {
 
     private TysiacLab(Context context) {
         //bazy danych
-        mContext = context.getApplicationContext();
-        mDatabase = new TysiacBaseHelper(mContext).getWritableDatabase();
+        //mContext = context.getApplicationContext();
+        mDatabase = new TysiacBaseHelper(context.getApplicationContext()).getWritableDatabase();
 
     }
     public static TysiacLab get(Context context) {
@@ -105,13 +101,13 @@ public class TysiacLab {
         }
     }
     public Gra getGra(UUID uuid,int lp) {
-        String whereClause = GraTable.Cols.ROZGRYWKA_UUID + " = ? AND  " + GraTable.Cols.LP + " = ?";
+        //String whereClause = GraTable.Cols.ROZGRYWKA_UUID + " = ? AND  " + GraTable.Cols.LP + " = ?";
         GraCursorWrapper cursor = queryGra(
                 GraTable.Cols.ROZGRYWKA_UUID + " = ? AND  " + GraTable.Cols.LP + " LIKE ?",
                 new String[] { uuid.toString(), String.valueOf(lp)}
         );
         try {
-            int ccc = cursor.getCount();
+            //int ccc = cursor.getCount();
             if (cursor.getCount() == 0) return null;
             cursor.moveToFirst();
             return cursor.getGra();
@@ -189,7 +185,7 @@ public class TysiacLab {
         );
     }
     public int getLastGra(UUID uuid) {
-        int lastGra = 0;
+        int lastGra;
         Cursor cursor = mDatabase.query(
                 GraTable.NAME,
                 new String[] { GraTable.Cols.LP },

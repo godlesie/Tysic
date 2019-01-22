@@ -24,16 +24,16 @@ public class GraAddDialog extends DialogFragment {
     public static final String EXTRA_CONTRACT3 = "eu.godlesie.jgdlws.contract3";
     public static final String EXTRA_CONTRACT4 = "eu.godlesie.jgdlws.contract4";
 
-    private View mView;
+    //private View mView;
 
     private EditText mEditTextContract1;
     private EditText mEditTextContract2;
     private EditText mEditTextContract3;
     private EditText mEditTextContract4;
 
-    private UUID mUUID;
-    private TysiacLab mTysiacLab;
-    private Rozgrywka mRozgrywka;
+    //private UUID mUUID;
+    //private TysiacLab mTysiacLab;
+    //private Rozgrywka mRozgrywka;
 
     //TODO - przekaż do dialogu dane uuid z rozgrywki i dobierz ilość zawodników
     //TODO - zablokuj klawisz ok jeśli nic nie podasz.
@@ -41,35 +41,31 @@ public class GraAddDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        mView = LayoutInflater.from(getActivity())
+        View view = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_add_gra,null);
-        mEditTextContract1 = mView.findViewById(R.id.edit_text_player1);
-        mEditTextContract2 = mView.findViewById(R.id.edit_text_player2);
-        mEditTextContract3 = mView.findViewById(R.id.edit_text_player3);
-        mEditTextContract4 = mView.findViewById(R.id.edit_text_contract4);
+        mEditTextContract1 = view.findViewById(R.id.edit_text_player1);
+        mEditTextContract2 = view.findViewById(R.id.edit_text_player2);
+        mEditTextContract3 = view.findViewById(R.id.edit_text_player3);
+        mEditTextContract4 = view.findViewById(R.id.edit_text_contract4);
 
-        mTysiacLab = TysiacLab.get(getActivity());
-        mUUID = (UUID) getArguments().getSerializable(GraActivity.ARGS_NUM_ROZGRYWKA);
-        mRozgrywka = mTysiacLab.getRozgrywka(mUUID);
+        TysiacLab tysiacLab = TysiacLab.get(getActivity());
 
-        mEditTextContract1.setVisibility(mRozgrywka.getPlayer1().isEmpty() ? View.GONE : View.VISIBLE);
-        mEditTextContract2.setVisibility(mRozgrywka.getPlayer2().isEmpty() ? View.GONE : View.VISIBLE);
-        mEditTextContract3.setVisibility(mRozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
-        mEditTextContract4.setVisibility(mRozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
+        UUID uuid = (UUID) getArguments().getSerializable( GraActivity.ARGS_NUM_ROZGRYWKA);
+        Rozgrywka rozgrywka = tysiacLab.getRozgrywka(uuid);
+
+        mEditTextContract1.setVisibility(rozgrywka.getPlayer1().isEmpty() ? View.GONE : View.VISIBLE);
+        mEditTextContract2.setVisibility(rozgrywka.getPlayer2().isEmpty() ? View.GONE : View.VISIBLE);
+        mEditTextContract3.setVisibility(rozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
+        mEditTextContract4.setVisibility(rozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
 
         return new AlertDialog.Builder(getActivity())
-                .setView(mView)
+                .setView(view)
                 .setTitle(R.string.dialog_add_gra)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        sendResult(Activity.RESULT_OK);
-                    }
-                })
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> sendResult())
                 .setNeutralButton(android.R.string.cancel,null)
                 .create();
     }
-    private void sendResult(int resultCode) {
+    private void sendResult() {
 
         if (getTargetFragment() == null) { return; }
         Intent intent = new Intent();
@@ -78,6 +74,6 @@ public class GraAddDialog extends DialogFragment {
         intent.putExtra(EXTRA_CONTRACT3,mEditTextContract3.getText().equals("") ? "0" : mEditTextContract3.getText().toString());
         intent.putExtra(EXTRA_CONTRACT4,mEditTextContract4.getText().equals("") ? "0" : mEditTextContract4.getText().toString());
         getTargetFragment()
-                .onActivityResult(getTargetRequestCode(),resultCode,intent);
+                .onActivityResult(getTargetRequestCode(),Activity.RESULT_OK,intent);
     }
 }

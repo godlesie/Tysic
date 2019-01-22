@@ -2,7 +2,6 @@ package eu.godlesie.jgdlws.tysic;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -20,7 +19,6 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 import java.util.UUID;
@@ -107,7 +105,7 @@ public class RozgrywkiFragment extends Fragment {
         private static final String DATE_FORMAT = "EEE, MMM dd: HH:MM";
 
 
-        public RozgrywkaHolder(LayoutInflater inflater, ViewGroup parent) {
+        RozgrywkaHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_rozgywki, parent,false));
 
             mTableLayoutPlayers = itemView.findViewById(R.id.table_summary_players);
@@ -135,10 +133,10 @@ public class RozgrywkiFragment extends Fragment {
             mTableLayoutPlayers.setOnClickListener(this);
 
         }
-        public void bind(Rozgrywka rozgrywka) {
+        void bind(Rozgrywka rozgrywka) {
             mRozgrywka = rozgrywka;
-
-            mTextViewNumerRozgrywki.setText("Rozgrywka: " + DateFormat.format(DATE_FORMAT, rozgrywka.getDate()) );
+            String scoreTitle = R.string.score_title + " " + DateFormat.format(DATE_FORMAT, rozgrywka.getDate());
+            mTextViewNumerRozgrywki.setText(scoreTitle);
             mTextViewPlayer1.setText(rozgrywka.getPlayer1());
             mTextViewPlayer1.setTypeface(mTextViewPlayer1.getTypeface(),rozgrywka.getWynik1()>=1000 ? Typeface.BOLD : Typeface.NORMAL);
             mTextViewPlayer1.setTextColor(rozgrywka.getWynik1() >= 1000 ? Color.GREEN : Color.BLACK);
@@ -164,22 +162,14 @@ public class RozgrywkiFragment extends Fragment {
             mTextViewPlayer4.setTextColor(rozgrywka.getWynik4() >= 1000 ? Color.GREEN : Color.BLACK);
             mTextViewBomb4.setText(rozgrywka.getBomb4() == 0 ? "" : String.valueOf(rozgrywka.getBomb4()));
             mTextViewScore4.setText(String.valueOf(rozgrywka.getWynik4()));
-            mButtonDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new AlertDialog.Builder(getActivity()
-                    ).setTitle("test")
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            tysiacLab.deleteRozgrywka(rozgrywka);
-                            updateUI();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.cancel,null)
-                    .create().show();
-                }
-            });
+            mButtonDelete.setOnClickListener(v -> new AlertDialog.Builder(getActivity()
+            ).setTitle("test")
+            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                tysiacLab.deleteRozgrywka(rozgrywka);
+                updateUI();
+            })
+            .setNegativeButton(android.R.string.cancel,null)
+            .create().show());
 
         }
 
@@ -193,7 +183,7 @@ public class RozgrywkiFragment extends Fragment {
     }
     private class RozgrywkaAdapter extends RecyclerView.Adapter<RozgrywkaHolder> {
         private List<Rozgrywka> mRozgrywki;
-        public RozgrywkaAdapter(List<Rozgrywka> rozgrywki) {
+        RozgrywkaAdapter(List<Rozgrywka> rozgrywki) {
             mRozgrywki = rozgrywki;
         }
 
@@ -216,7 +206,7 @@ public class RozgrywkiFragment extends Fragment {
             return mRozgrywki.size();
         }
 
-        public void setRozgrywki(List<Rozgrywka> rozgrywki) {
+        void setRozgrywki(List<Rozgrywka> rozgrywki) {
             mRozgrywki = rozgrywki;
         }
     }

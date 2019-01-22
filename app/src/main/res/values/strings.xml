@@ -24,5 +24,7 @@
     <string name="set_score_3">Score player 3</string>
     <string name="set_score_4">Score player 4</string>
     <string name="dialog_set_wynik">Set score</string>
+    <string name="number_of_play">Number of play:</string>
+    <string name="score_title">"Score: "</string>
 
 </resources>

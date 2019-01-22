@@ -3,7 +3,6 @@ package eu.godlesie.jgdlws.tysic;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,10 +20,6 @@ public class RozgrywkaAddDialog extends DialogFragment {
 
     private View mView;
 
-    private EditText mEditTextPlayer1;
-    private EditText mEditTextPlayer2;
-    private EditText mEditTextPlayer3;
-    private EditText mEditTextPlayer4;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -34,29 +29,24 @@ public class RozgrywkaAddDialog extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setView(mView)
                 .setTitle(R.string.dialog_add_rozgrywka)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        sendResult(Activity.RESULT_OK);
-                    }
-                })
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> sendResult())
                 .setNeutralButton(android.R.string.cancel,null)
                 .create();
     }
-    private void sendResult(int resultCode) {
-        mEditTextPlayer1 = mView.findViewById(R.id.edit_text_player1);
-        mEditTextPlayer2 = mView.findViewById(R.id.edit_text_player2);
-        mEditTextPlayer3 = mView.findViewById(R.id.edit_text_player3);
-        mEditTextPlayer4 = mView.findViewById(R.id.edit_text_player4);
+    private void sendResult() {
+        EditText editTextPlayer1 = mView.findViewById(R.id.edit_text_player1);
+        EditText editTextPlayer2 = mView.findViewById(R.id.edit_text_player2);
+        EditText editTextPlayer3 = mView.findViewById(R.id.edit_text_player3);
+        EditText editTextPlayer4 = mView.findViewById(R.id.edit_text_player4);
         if (getTargetFragment() == null) {
             return;
         }
         Intent intent = new Intent();
-        intent.putExtra(EXTRA_PLAYER1,mEditTextPlayer1.getText().toString());
-        intent.putExtra(EXTRA_PLAYER2,mEditTextPlayer2.getText().toString());
-        intent.putExtra(EXTRA_PLAYER3,mEditTextPlayer3.getText().toString());
-        intent.putExtra(EXTRA_PLAYER4,mEditTextPlayer4.getText().toString());
+        intent.putExtra(EXTRA_PLAYER1,editTextPlayer1.getText().toString());
+        intent.putExtra(EXTRA_PLAYER2,editTextPlayer2.getText().toString());
+        intent.putExtra(EXTRA_PLAYER3,editTextPlayer3.getText().toString());
+        intent.putExtra(EXTRA_PLAYER4,editTextPlayer4.getText().toString());
         getTargetFragment()
-                .onActivityResult(getTargetRequestCode(),resultCode,intent);
+                .onActivityResult(getTargetRequestCode(),Activity.RESULT_OK,intent);
     }
 }

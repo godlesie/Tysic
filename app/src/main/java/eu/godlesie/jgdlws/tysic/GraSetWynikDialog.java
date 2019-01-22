@@ -26,7 +26,6 @@ public class GraSetWynikDialog extends DialogFragment {
     public static final String EXTRA_WYNIK4 = "eu.godlesie.jgdlws.wynik4";
     public static final int REQUEST_WYNIK = 1;
 
-    private View mView;
 
     private EditText mEditTextWynik1;
     private EditText mEditTextWynik2;
@@ -39,41 +38,31 @@ public class GraSetWynikDialog extends DialogFragment {
     private UUID mUUID;
     private int lp;
     private TysiacLab mTysiacLab;
-    private Rozgrywka mRozgrywka;
-    private Gra mGra;
-
-    //TODO - przekaż do dialogu dane uuid z rozgrywki i dobierz ilość zawodników
-    //TODO - zablokuj klawisz ok jeśli nic nie podasz.
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        mView = LayoutInflater.from(getActivity())
+        View view = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_set_wynik,null);
         mUUID = (UUID) getArguments().getSerializable(ARGS_UUID);
         lp = (int) getArguments().getSerializable(ARGS_LP);
-        mEditTextWynik1 = mView.findViewById(R.id.edit_text_player1);
-        mEditTextWynik2 = mView.findViewById(R.id.edit_text_player2);
-        mEditTextWynik3 = mView.findViewById(R.id.edit_text_player3);
-        mEditTextWynik4 = mView.findViewById(R.id.edit_text_wynik4);
+        mEditTextWynik1 = view.findViewById(R.id.edit_text_player1);
+        mEditTextWynik2 = view.findViewById(R.id.edit_text_player2);
+        mEditTextWynik3 = view.findViewById(R.id.edit_text_player3);
+        mEditTextWynik4 = view.findViewById(R.id.edit_text_wynik4);
 
         mTysiacLab = TysiacLab.get(getActivity());
-        mRozgrywka = mTysiacLab.getRozgrywka(mUUID);
+        Rozgrywka rozgrywka = mTysiacLab.getRozgrywka(mUUID);
 
-        mEditTextWynik1.setVisibility(mRozgrywka.getPlayer1().isEmpty() ? View.GONE : View.VISIBLE);
-        mEditTextWynik2.setVisibility(mRozgrywka.getPlayer2().isEmpty() ? View.GONE : View.VISIBLE);
-        mEditTextWynik3.setVisibility(mRozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
-        mEditTextWynik4.setVisibility(mRozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
+        mEditTextWynik1.setVisibility(rozgrywka.getPlayer1().isEmpty() ? View.GONE : View.VISIBLE);
+        mEditTextWynik2.setVisibility(rozgrywka.getPlayer2().isEmpty() ? View.GONE : View.VISIBLE);
+        mEditTextWynik3.setVisibility(rozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
+        mEditTextWynik4.setVisibility(rozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
 
         return new AlertDialog.Builder(getActivity())
-                .setView(mView)
+                .setView(view)
                 .setTitle(R.string.dialog_set_wynik)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        sendResult();
-                    }
-                })
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> sendResult())
                 .setNeutralButton(android.R.string.cancel,null)
                 .create();
     }

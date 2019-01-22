@@ -2,14 +2,14 @@ package eu.godlesie.jgdlws.tysic.model;
 
 import java.util.UUID;
 
-public class Gra {
+public  class Gra {
     private int mLp = 0;
     private UUID mUUIDRozgrywka;
     private int mContract1,mContract2,mContract3,mContract4 = 0;
     private int mWynik1,mWynik2,mWynik3,mWynik4 = 0;
     private int mBomba1,mBomba2,mBomba3,mBomba4 = 0;
 
-    public Gra(UUID uuid) {
+    public  Gra(UUID uuid) {
         mUUIDRozgrywka = uuid;
     }
 
@@ -21,13 +21,11 @@ public class Gra {
         mLp = lp;
     }
 
-    public UUID getUUIDRozgrywka() {
-        return mUUIDRozgrywka;
-    }
+    UUID getUUIDRozgrywka() { return mUUIDRozgrywka; }
 
-    public void setUUIDRozgrywka(UUID UUIDRozgrywka) {
+    /*public void setUUIDRozgrywka(UUID UUIDRozgrywka) {
         mUUIDRozgrywka = UUIDRozgrywka;
-    }
+    }*/
 
     public int getContract1() {
         return mContract1;

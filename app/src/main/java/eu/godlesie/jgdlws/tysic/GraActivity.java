@@ -27,7 +27,7 @@ public class GraActivity extends AppCompatActivity {
 
         mUUID = (UUID) getIntent().getSerializableExtra(RozgrywkiFragment.EXTRA_ROZGRYWKA_UUID);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FragmentManager fm = getSupportFragmentManager();
@@ -40,18 +40,15 @@ public class GraActivity extends AppCompatActivity {
         }
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fm = getSupportFragmentManager();
-                GraAddDialog dialog = new GraAddDialog();
-                Bundle args = new Bundle();
-                args.putSerializable(ARGS_NUM_ROZGRYWKA,mUUID);
-                dialog.setArguments(args);
-                dialog.setTargetFragment(mFragment, ADD_GRA_DIALOG);
-                dialog.show(fm,DIALOG_ADD_GRA);
-            }
+        fab.setOnClickListener((View view) -> {
+            GraAddDialog dialog = new GraAddDialog();
+            Bundle args = new Bundle();
+            args.putSerializable(ARGS_NUM_ROZGRYWKA,mUUID);
+            dialog.setArguments(args);
+            dialog.setTargetFragment(mFragment, ADD_GRA_DIALOG);
+            dialog.show(fm,DIALOG_ADD_GRA);
         });
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
