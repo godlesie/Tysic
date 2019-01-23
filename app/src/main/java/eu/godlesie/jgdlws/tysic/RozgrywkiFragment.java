@@ -135,7 +135,7 @@ public class RozgrywkiFragment extends Fragment {
         }
         void bind(Rozgrywka rozgrywka) {
             mRozgrywka = rozgrywka;
-            String scoreTitle = R.string.score_title + " " + DateFormat.format(DATE_FORMAT, rozgrywka.getDate());
+            String scoreTitle = getResources().getString(R.string.score_title) + " " + DateFormat.format(DATE_FORMAT, rozgrywka.getDate());
             mTextViewNumerRozgrywki.setText(scoreTitle);
             mTextViewPlayer1.setText(rozgrywka.getPlayer1());
             mTextViewPlayer1.setTypeface(mTextViewPlayer1.getTypeface(),rozgrywka.getWynik1()>=1000 ? Typeface.BOLD : Typeface.NORMAL);

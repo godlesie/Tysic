@@ -173,7 +173,6 @@ public class TysiacLab {
     }
     public int getLastGra(UUID uuid) {
         int lastGra;
-
         try (Cursor cursor = mDatabase.query(
                 GraTable.NAME,
                 new String[]{GraTable.Cols.LP},

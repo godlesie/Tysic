@@ -2,9 +2,11 @@ package eu.godlesie.jgdlws.tysic;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,7 +29,7 @@ import eu.godlesie.jgdlws.tysic.model.TysiacLab;
 public class GraFragment extends Fragment {
     private static final String SET_WYNIK_DIALOG = "set_wynik";
 
-
+    FloatingActionButton mFb;
     RecyclerView mRecyclerView;
     GraAdapter mAdapter;
     TysiacLab mTysiacLab;
@@ -48,7 +50,7 @@ public class GraFragment extends Fragment {
             mUUID = (UUID) getActivity().getIntent().getSerializableExtra(RozgrywkiFragment.EXTRA_ROZGRYWKA_UUID);
         }
         mRozgrywka = mTysiacLab.getRozgrywka(mUUID);
-
+        mFb = getActivity().findViewById(R.id.fab);
         TableRow tableRowSummaryPlayer3 = view.findViewById(R.id.table_row_summary_player_3);
         tableRowSummaryPlayer3.setVisibility(mRozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
         TableRow  tableRowSummaryPlayer4 = view.findViewById(R.id.table_row_summary_player_4);
@@ -92,6 +94,12 @@ public class GraFragment extends Fragment {
 
     private void updateUI() {
         List<Gra> gry = mTysiacLab.getGry(mUUID);
+        Gra gra = mTysiacLab.getGra(mUUID,mTysiacLab.getLastGra(mUUID));
+        if (gra.getWynik1() + gra.getWynik2() + gra.getWynik3() + gra.getWynik4() == 0) {
+            mFb.hide();
+        } else {
+            mFb.show();
+        }
         if (mAdapter == null) {
             mAdapter = new GraAdapter(gry);
             mRecyclerView.setAdapter(mAdapter);
@@ -159,7 +167,7 @@ public class GraFragment extends Fragment {
                 dialog.show(manager,SET_WYNIK_DIALOG);
                 //updateUI();
             });
-            String playNumber = R.string.number_of_play + String.valueOf(gra.getLp());
+            String playNumber = getResources().getString(R.string.number_of_play) + String.valueOf(gra.getLp());
             mTextViewNumerGry.setText(playNumber);
             //ilość graczy
             mTableRowPlayer3.setVisibility(mRozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);

@@ -48,6 +48,7 @@ public class GraActivity extends AppCompatActivity {
             dialog.setTargetFragment(mFragment, ADD_GRA_DIALOG);
             dialog.show(fm,DIALOG_ADD_GRA);
         });
+
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
