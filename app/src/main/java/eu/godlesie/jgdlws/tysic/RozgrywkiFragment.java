@@ -8,7 +8,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +30,8 @@ import eu.godlesie.jgdlws.tysic.model.Rozgrywka;
 import eu.godlesie.jgdlws.tysic.model.TysiacLab;
 
 public class RozgrywkiFragment extends Fragment {
+    private static final String SET_WYNIK_DIALOG = "set_wynik";
+
     RecyclerView mRecyclerView;
     RozgrywkaAdapter mAdapter;
     TysiacLab tysiacLab;
@@ -99,7 +104,7 @@ public class RozgrywkiFragment extends Fragment {
         private TableRow mTableRowPlayer3,mTableRowPlayer4;
         private TableLayout mTableLayoutPlayers;
 
-        private Button mButtonDelete;
+        private Button mButtonDelete, mButtonEdit;
 
         private Rozgrywka mRozgrywka;
         private static final String DATE_FORMAT = "EEE, MMM dd: HH:MM";
@@ -130,6 +135,7 @@ public class RozgrywkiFragment extends Fragment {
             mTextViewScore4 = itemView.findViewById(R.id.text_view_score_4);
 
             mButtonDelete = itemView.findViewById(R.id.btn_delete);
+            mButtonEdit = itemView.findViewById(R.id.btn_edit);
             mTableLayoutPlayers.setOnClickListener(this);
 
         }
@@ -162,16 +168,24 @@ public class RozgrywkiFragment extends Fragment {
             mTextViewPlayer4.setTextColor(rozgrywka.getWynik4() >= 1000 ? Color.GREEN : Color.BLACK);
             mTextViewBomb4.setText(rozgrywka.getBomb4() == 0 ? "" : String.valueOf(rozgrywka.getBomb4()));
             mTextViewScore4.setText(String.valueOf(rozgrywka.getWynik4()));
-            mButtonDelete.setOnClickListener(v -> new AlertDialog.Builder(getActivity()
-            ).setTitle("test")
-            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                tysiacLab.deleteRozgrywka(rozgrywka);
-                updateUI();
-            })
-            .setNegativeButton(android.R.string.cancel,null)
-            .create().show());
-
+            mButtonDelete.setOnClickListener(v -> new AlertDialog.Builder(getActivity())
+                    .setTitle(getResources().getString(R.string.delete))
+                    .setMessage(getResources().getString(R.string.delete_message))
+                    .setIcon(android.R.drawable.ic_delete)
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                        tysiacLab.deleteRozgrywka(rozgrywka);
+                        updateUI(); }
+                        )
+                    .setNegativeButton(android.R.string.cancel,null)
+                    .create().show());
+            mButtonEdit.setOnClickListener(v -> {
+                FragmentManager fm = getFragmentManager();
+                RozgrywkaEditDialog dialog = RozgrywkaEditDialog.newInstance(rozgrywka.getUUID());
+                dialog.setTargetFragment(RozgrywkiFragment.this,RozgrywkaEditDialog.REQUEST_WYNIK);
+                dialog.show(fm,SET_WYNIK_DIALOG);
+            });
         }
+
 
         @Override
         public void onClick(View v) {

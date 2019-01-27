@@ -26,5 +26,7 @@
     <string name="dialog_set_wynik">Set score</string>
     <string name="number_of_play">Number of play:</string>
     <string name="score_title">"Score: "</string>
+    <string name="set_bomb">SET BOMB</string>
+    <string name="delete_message">Are you sure?</string>
 
 </resources>

@@ -14,8 +14,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,6 +37,7 @@ public class GraFragment extends Fragment {
     TysiacLab mTysiacLab;
     Rozgrywka mRozgrywka;
     UUID mUUID;
+    public Button mButtonDelete, mButtonEdit, mButtonSetBomb;
 
     private TextView mTextViewSummaryBomb1,mTextViewSummaryBomb2,mTextViewSummaryBomb3,mTextViewSummaryBomb4;
     private TextView mTextViewSummaryScore1,mTextViewSummaryScore2,mTextViewSummaryScore3,mTextViewSummaryScore4;
@@ -139,6 +142,10 @@ public class GraFragment extends Fragment {
 
             mTextViewNumerGry = itemView.findViewById(R.id.text_view_numer_gry);
 
+            mButtonDelete = itemView.findViewById(R.id.btn_delete);
+            mButtonEdit = itemView.findViewById(R.id.btn_edit);
+            mButtonSetBomb = itemView.findViewById(R.id.btn_set_bomb);
+
             mTextViewPlayer1 = itemView.findViewById(R.id.text_view_player_1);
             mTextViewPlayer2 = itemView.findViewById(R.id.text_view_player_2);
             mTextViewPlayer3 = itemView.findViewById(R.id.text_view_player_3);
@@ -166,6 +173,15 @@ public class GraFragment extends Fragment {
                 assert manager != null;
                 dialog.show(manager,SET_WYNIK_DIALOG);
                 //updateUI();
+            });
+            mButtonDelete.setOnClickListener(v -> {
+                Toast.makeText(getActivity(),"delete",Toast.LENGTH_SHORT).show();
+            });
+            mButtonEdit.setOnClickListener(v -> {
+                Toast.makeText(getActivity(),"edit",Toast.LENGTH_SHORT).show();
+            });
+            mButtonSetBomb.setOnClickListener(v -> {
+                Toast.makeText(getActivity(),"set bomb",Toast.LENGTH_SHORT).show();
             });
             String playNumber = getResources().getString(R.string.number_of_play) + String.valueOf(gra.getLp());
             mTextViewNumerGry.setText(playNumber);
