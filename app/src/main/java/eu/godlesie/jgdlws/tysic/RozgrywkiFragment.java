@@ -107,6 +107,7 @@ public class RozgrywkiFragment extends Fragment {
     private class RozgrywkaHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         //deklaracja pól widoku
         private TextView mTextViewNumerRozgrywki;
+        private TextView mTextViewStatusRozgrywki;
 
         private TextView mTextViewPlayer1, mTextViewPlayer2, mTextViewPlayer3, mTextViewPlayer4;
         private TextView mTextViewBomb1,mTextViewBomb2,mTextViewBomb3,mTextViewBomb4;
@@ -129,6 +130,8 @@ public class RozgrywkiFragment extends Fragment {
             mTableRowPlayer4 = itemView.findViewById(R.id.table_row_player_4);
 
             mTextViewNumerRozgrywki = itemView.findViewById(R.id.text_view_numer_gry);
+            mTextViewStatusRozgrywki = itemView.findViewById(R.id.text_view_status);
+
             mTextViewPlayer1 = itemView.findViewById(R.id.text_view_player_1);
             mTextViewBomb1 = itemView.findViewById(R.id.text_view_bomb_1);
             mTextViewScore1 = itemView.findViewById(R.id.text_view_score_1);
@@ -153,6 +156,14 @@ public class RozgrywkiFragment extends Fragment {
         void bind(Rozgrywka rozgrywka) {
             mRozgrywka = rozgrywka;
             String scoreTitle = getResources().getString(R.string.score_title) + " " + DateFormat.format(DATE_FORMAT, rozgrywka.getDate());
+
+            //TODO - status rozgrywki
+            boolean isDone = (mRozgrywka.getWynik1() >= 1000 ||
+                    mRozgrywka.getWynik2() >= 1000 ||
+                    mRozgrywka.getWynik3() >= 1000 ||
+                    mRozgrywka.getWynik4() >= 1000);
+            mTextViewStatusRozgrywki.setText(isDone  ? "Ukończona" : "Otwarta");
+
             mTextViewNumerRozgrywki.setText(scoreTitle);
             mTextViewPlayer1.setText(rozgrywka.getPlayer1());
             mTextViewPlayer1.setTypeface(mTextViewPlayer1.getTypeface(),rozgrywka.getWynik1()>=1000 ? Typeface.BOLD : Typeface.NORMAL);
