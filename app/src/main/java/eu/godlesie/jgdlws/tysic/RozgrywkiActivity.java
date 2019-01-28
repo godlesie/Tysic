@@ -12,7 +12,7 @@ import android.view.MenuItem;
 public class RozgrywkiActivity extends AppCompatActivity {
 
     private static final String DIALOG_ADD_ROZGRYWKA = "dialog_add_rozgrywka";
-    public static final int REQUEST_DIALOG = 0;
+    public static final int REQUEST_ROZGRYWKA_ADD_DIALOG = 0;
     private Fragment mFragment;
 
     @Override
@@ -35,7 +35,7 @@ public class RozgrywkiActivity extends AppCompatActivity {
         fab.setOnClickListener(view -> {
             FragmentManager manager = getSupportFragmentManager();
             RozgrywkaAddDialog dialog = new RozgrywkaAddDialog();
-            dialog.setTargetFragment(mFragment,REQUEST_DIALOG);
+            dialog.setTargetFragment(mFragment, REQUEST_ROZGRYWKA_ADD_DIALOG);
             dialog.show(manager,DIALOG_ADD_ROZGRYWKA);
         });
     }

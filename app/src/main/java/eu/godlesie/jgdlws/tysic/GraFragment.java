@@ -98,10 +98,12 @@ public class GraFragment extends Fragment {
     private void updateUI() {
         List<Gra> gry = mTysiacLab.getGry(mUUID);
         Gra gra = mTysiacLab.getGra(mUUID,mTysiacLab.getLastGra(mUUID));
-        if (gra.getWynik1() + gra.getWynik2() + gra.getWynik3() + gra.getWynik4() == 0) {
-            mFb.hide();
-        } else {
-            mFb.show();
+        if (gry.size() != 0) {
+            if (gra.getWynik1() + gra.getWynik2() + gra.getWynik3() + gra.getWynik4() == 0) {
+                mFb.hide();
+            } else {
+                mFb.show();
+            }
         }
         if (mAdapter == null) {
             mAdapter = new GraAdapter(gry);

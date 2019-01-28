@@ -142,13 +142,13 @@ public class TysiacLab {
         mDatabase.insert(GraTable.NAME,null,contentValues);
     }
 
-    /*public void updateRozgrywka(Rozgrywka rozgrywka) {
+    public void updateRozgrywka(Rozgrywka rozgrywka) {
         String uuidString = rozgrywka.getUUID().toString();
         ContentValues contentValues = getRozgrywkaValues(rozgrywka);
         mDatabase.update(RozgrywkaTable.NAME,contentValues,
                 RozgrywkaTable.Cols.UUID + " = ?",
                 new String[] {uuidString});
-    }*/
+    }
 
     public void updateGra(Gra gra) {
         String lpString = String.valueOf(gra.getLp());

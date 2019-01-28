@@ -8,7 +8,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +20,6 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +28,7 @@ import eu.godlesie.jgdlws.tysic.model.Rozgrywka;
 import eu.godlesie.jgdlws.tysic.model.TysiacLab;
 
 public class RozgrywkiFragment extends Fragment {
-    private static final String SET_WYNIK_DIALOG = "set_wynik";
+    private static final String DIALOG_EDIT_WYNIK = "set_wynik";
 
     RecyclerView mRecyclerView;
     RozgrywkaAdapter mAdapter;
@@ -53,7 +51,7 @@ public class RozgrywkiFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == RozgrywkiActivity.REQUEST_DIALOG) {
+            if (requestCode == RozgrywkiActivity.REQUEST_ROZGRYWKA_ADD_DIALOG) {
                 String player1 = (String) data.getSerializableExtra(RozgrywkaAddDialog.EXTRA_PLAYER1);
                 String player2 = (String) data.getSerializableExtra(RozgrywkaAddDialog.EXTRA_PLAYER2);
                 String player3 = (String) data.getSerializableExtra(RozgrywkaAddDialog.EXTRA_PLAYER3);
@@ -64,6 +62,20 @@ public class RozgrywkiFragment extends Fragment {
                 rozgrywka.setPlayer3(player3);
                 rozgrywka.setPlayer4(player4);
                 tysiacLab.addRozgrywka(rozgrywka);
+                updateUI();
+            }
+            if (requestCode == RozgrywkaEditDialog.REQUEST_ROZGRYWKA_EDIT) {
+                String player1 = (String)data.getSerializableExtra(RozgrywkaEditDialog.EXTRA_PLAYER1);
+                String player2 = (String)data.getSerializableExtra(RozgrywkaEditDialog.EXTRA_PLAYER2);
+                String player3 = (String)data.getSerializableExtra(RozgrywkaEditDialog.EXTRA_PLAYER3);
+                String player4 = (String)data.getSerializableExtra(RozgrywkaEditDialog.EXTRA_PLAYER4);
+                UUID uuid = (UUID)data.getSerializableExtra(RozgrywkaEditDialog.EXTRA_UUID);
+                Rozgrywka rozgrywka = tysiacLab.getRozgrywka(uuid);
+                rozgrywka.setPlayer1(player1);
+                rozgrywka.setPlayer2(player2);
+                rozgrywka.setPlayer3(player3);
+                rozgrywka.setPlayer4(player4);
+                tysiacLab.updateRozgrywka(rozgrywka);
                 updateUI();
             }
         }
@@ -91,7 +103,6 @@ public class RozgrywkiFragment extends Fragment {
         }
 
     }
-
 
     private class RozgrywkaHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         //deklaracja pól widoku
@@ -137,8 +148,8 @@ public class RozgrywkiFragment extends Fragment {
             mButtonDelete = itemView.findViewById(R.id.btn_delete);
             mButtonEdit = itemView.findViewById(R.id.btn_edit);
             mTableLayoutPlayers.setOnClickListener(this);
-
         }
+
         void bind(Rozgrywka rozgrywka) {
             mRozgrywka = rozgrywka;
             String scoreTitle = getResources().getString(R.string.score_title) + " " + DateFormat.format(DATE_FORMAT, rozgrywka.getDate());
@@ -181,11 +192,11 @@ public class RozgrywkiFragment extends Fragment {
             mButtonEdit.setOnClickListener(v -> {
                 FragmentManager fm = getFragmentManager();
                 RozgrywkaEditDialog dialog = RozgrywkaEditDialog.newInstance(rozgrywka.getUUID());
-                dialog.setTargetFragment(RozgrywkiFragment.this,RozgrywkaEditDialog.REQUEST_WYNIK);
-                dialog.show(fm,SET_WYNIK_DIALOG);
+                dialog.setTargetFragment(RozgrywkiFragment.this,RozgrywkaEditDialog.REQUEST_ROZGRYWKA_EDIT);
+                dialog.show(fm, DIALOG_EDIT_WYNIK);
+                updateUI();
             });
         }
-
 
         @Override
         public void onClick(View v) {
@@ -195,6 +206,9 @@ public class RozgrywkiFragment extends Fragment {
             startActivity(intent);
         }
     }
+
+
+
     private class RozgrywkaAdapter extends RecyclerView.Adapter<RozgrywkaHolder> {
         private List<Rozgrywka> mRozgrywki;
         RozgrywkaAdapter(List<Rozgrywka> rozgrywki) {
