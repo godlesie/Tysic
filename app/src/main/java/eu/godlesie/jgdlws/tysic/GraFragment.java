@@ -112,6 +112,13 @@ public class GraFragment extends Fragment {
             mAdapter.setGry(gry);
             mAdapter.notifyDataSetChanged();
         }
+        Rozgrywka rozgrywka = mTysiacLab.getRozgrywka(mUUID);
+        rozgrywka.setWynik1(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_1,mUUID));
+        rozgrywka.setWynik2(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_2,mUUID));
+        rozgrywka.setWynik3(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_3,mUUID));
+        rozgrywka.setWynik4(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_4,mUUID));
+        mTysiacLab.updateRozgrywka(rozgrywka);
+
         mTextViewSummaryScore1.setText(String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_1,mUUID)));
         mTextViewSummaryScore2.setText(String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_2,mUUID)));
         mTextViewSummaryScore3.setText(String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_3,mUUID)));
