@@ -16,7 +16,7 @@
         <TextView
             android:id="@+id/text_view_numer_gry"
             style="?android:listSeparatorTextViewStyle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -203,42 +203,48 @@
         </TableLayout>
 
         <Button
-            android:id="@+id/btn_delete"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_set_score"
+            android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_button"
-            android:text="@string/delete"
+            android:text="@string/edit_score"
             android:textColor="@android:color/background_light"
-            android:textSize="12sp"
+            android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/table_summary_players" />
 
         <Button
-            android:id="@+id/btn_edit"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_set_contract"
+            android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_button"
-            android:text="@string/edit"
+            android:text="@string/edit_contract"
             android:textColor="@android:color/background_light"
-            app:layout_constraintEnd_toStartOf="@+id/btn_delete"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_set_score"
             app:layout_constraintTop_toBottomOf="@+id/table_summary_players" />
 
         <Button
             android:id="@+id/btn_set_bomb"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="20dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_button"
             android:text="@string/set_bomb"
             android:textColor="@android:color/background_light"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_set_contract"
             app:layout_constraintTop_toBottomOf="@+id/table_summary_players" />
 
     </android.support.constraint.ConstraintLayout>

@@ -1,6 +1,8 @@
 package eu.godlesie.jgdlws.tysic;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +15,7 @@ public class RozgrywkiActivity extends AppCompatActivity {
 
     private static final String DIALOG_ADD_ROZGRYWKA = "dialog_add_rozgrywka";
     public static final int REQUEST_ROZGRYWKA_ADD_DIALOG = 0;
+
     private Fragment mFragment;
 
     @Override
@@ -49,16 +52,12 @@ public class RozgrywkiActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), TysiacSettingActivity.class);
+            startActivity(intent);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -5,7 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,12 +22,8 @@ import static eu.godlesie.jgdlws.tysic.database.RozgrywkaDbSchema.RozgrywkaTable
 public class TysiacLab {
 
     private static TysiacLab sTysiacLab;
-
-    //do bazy danych
-    //private Context mContext;
     private SQLiteDatabase mDatabase;
 
-    //wartości tabeli rozgrywki
     private static ContentValues getRozgrywkaValues(Rozgrywka rozgrywka) {
         ContentValues contentValues = new ContentValues();
 
@@ -49,7 +48,6 @@ public class TysiacLab {
 
         return contentValues;
     }
-    //wartości tabeli gra
     private static ContentValues getGraValues(Gra gra) {
         ContentValues contentValues = new ContentValues();
 
@@ -73,12 +71,8 @@ public class TysiacLab {
 
         return contentValues;
     }
-
     private TysiacLab(Context context) {
-        //bazy danych
-        //mContext = context.getApplicationContext();
         mDatabase = new TysiacBaseHelper(context.getApplicationContext()).getWritableDatabase();
-
     }
     public static TysiacLab get(Context context) {
         if (sTysiacLab == null) {
@@ -86,7 +80,6 @@ public class TysiacLab {
         }
         return sTysiacLab;
     }
-
     public Rozgrywka getRozgrywka(UUID uuid) {
         try (RozgrywkaCursorWrapper cursor = queryRozgrywka(RozgrywkaTable.Cols.UUID + " = ?", new String[]{uuid.toString()}))
         {
@@ -106,7 +99,6 @@ public class TysiacLab {
             return cursor.getGra();
         }
     }
-
     public List<Rozgrywka> getRozgrywki() {
         List<Rozgrywka> rozgrywki = new ArrayList<>();
         try (RozgrywkaCursorWrapper cursor = queryRozgrywka(null, null)) {
@@ -118,7 +110,6 @@ public class TysiacLab {
         }
         return rozgrywki;
     }
-
     public List<Gra> getGry(UUID uuid) {
         List<Gra> gry = new ArrayList<>();
         try (GraCursorWrapper cursor = queryGra(
@@ -132,7 +123,6 @@ public class TysiacLab {
         }
         return gry;
     }
-
     public void addRozgrywka(Rozgrywka rozgrywka) {
         ContentValues contentValues = getRozgrywkaValues(rozgrywka);
         mDatabase.insert(RozgrywkaTable.NAME,null,contentValues);
@@ -141,7 +131,6 @@ public class TysiacLab {
         ContentValues contentValues = getGraValues(gra);
         mDatabase.insert(GraTable.NAME,null,contentValues);
     }
-
     public void updateRozgrywka(Rozgrywka rozgrywka) {
         String uuidString = rozgrywka.getUUID().toString();
         ContentValues contentValues = getRozgrywkaValues(rozgrywka);
@@ -149,7 +138,6 @@ public class TysiacLab {
                 RozgrywkaTable.Cols.UUID + " = ?",
                 new String[] {uuidString});
     }
-
     public void updateGra(Gra gra) {
         String lpString = String.valueOf(gra.getLp());
         String rozgrywkaUUID = gra.getUUIDRozgrywka().toString();
@@ -158,9 +146,6 @@ public class TysiacLab {
                 GraTable.Cols.LP + " LIKE ? AND " + GraTable.Cols.ROZGRYWKA_UUID + " = ?",
                 new String[] { lpString, rozgrywkaUUID });
     }
-    /*public void deleteGra(Gra gra) {
-    }*/
-
     public void deleteRozgrywka(Rozgrywka rozgrywka) {
         mDatabase.delete(RozgrywkaTable.NAME,
                 RozgrywkaTable.Cols.UUID + " = ?",
@@ -205,12 +190,13 @@ public class TysiacLab {
         }
         return summary;
     }
-
+    @NotNull
     private RozgrywkaCursorWrapper queryRozgrywka(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(RozgrywkaTable.NAME, null,whereClause,whereArgs,null,null,
                 RozgrywkaTable.Cols.DATE + " DESC");
         return new RozgrywkaCursorWrapper(cursor);
     }
+    @NotNull
     private GraCursorWrapper queryGra(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(GraTable.NAME,
                 null,
@@ -221,5 +207,18 @@ public class TysiacLab {
                 GraTable.Cols.LP + " DESC"
                 );
         return new GraCursorWrapper(cursor);
+    }
+    private HashMap<Integer,Player> fillPlayers(@NotNull Gra pGra) {
+        HashMap<Integer,Player> result = new HashMap<>();
+        Rozgrywka lRozgrywka = sTysiacLab.getRozgrywka(pGra.getUUIDRozgrywka());
+        result.put(1,new Player.Builder(lRozgrywka.getPlayer1()).contract(pGra.getContract1()).bomba(pGra.getBomba1()).score(pGra.getWynik1()).build());
+        result.put(2,new Player.Builder(lRozgrywka.getPlayer2()).contract(pGra.getContract2()).bomba(pGra.getBomba2()).score(pGra.getWynik2()).build());
+        result.put(3,new Player.Builder(lRozgrywka.getPlayer3()).contract(pGra.getContract3()).bomba(pGra.getBomba3()).score(pGra.getWynik3()).build());
+        result.put(4,new Player.Builder(lRozgrywka.getPlayer4()).contract(pGra.getContract4()).bomba(pGra.getBomba4()).score(pGra.getWynik4()).build());
+        return result;
+    }
+    public Player getplayer(Gra pGra,int pPlayer) {
+        HashMap<Integer,Player> result = fillPlayers(pGra);
+        return result.get(pPlayer);
     }
 }

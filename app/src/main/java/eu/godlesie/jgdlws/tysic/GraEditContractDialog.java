@@ -3,7 +3,6 @@ package eu.godlesie.jgdlws.tysic;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,14 +20,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import eu.godlesie.jgdlws.tysic.model.Gra;
 import eu.godlesie.jgdlws.tysic.model.Rozgrywka;
 import eu.godlesie.jgdlws.tysic.model.TysiacLab;
 
-public class GraAddDialog extends DialogFragment {
+public class GraEditContractDialog extends DialogFragment {
     public static final String EXTRA_CONTRACT1 = "eu.godlesie.jgdlws.contract1";
     public static final String EXTRA_CONTRACT2 = "eu.godlesie.jgdlws.contract2";
     public static final String EXTRA_CONTRACT3 = "eu.godlesie.jgdlws.contract3";
     public static final String EXTRA_CONTRACT4 = "eu.godlesie.jgdlws.contract4";
+
+    public static final int REQUEST_EDIT_CONTRACT = 2;
+    private static final String ARGS_UUID = "uuid";
+    private static final String ARGS_LP = "gra_lp";
 
     //private View mView;
 
@@ -38,13 +42,6 @@ public class GraAddDialog extends DialogFragment {
     private EditText mEditTextContract4;
 
     private TextView mTextViewplayer1,mTextViewplayer2,mTextViewplayer3,mTextViewplayer4;
-
-    //private UUID mUUID;
-    //private TysiacLab mTysiacLab;
-    //private Rozgrywka mRozgrywka;
-
-    //TODO - przekaż do dialogu dane uuid z rozgrywki i dobierz ilość zawodników
-    //TODO - zablokuj klawisz ok jeśli nic nie podasz.
 
     @NonNull
     @Override
@@ -63,25 +60,21 @@ public class GraAddDialog extends DialogFragment {
 
         TysiacLab tysiacLab = TysiacLab.get(getActivity());
 
-        UUID uuid = (UUID) getArguments().getSerializable( GraActivity.ARGS_NUM_ROZGRYWKA);
+        UUID uuid = (UUID) getArguments().getSerializable( ARGS_UUID);
         Rozgrywka rozgrywka = tysiacLab.getRozgrywka(uuid);
         int lastGra = tysiacLab.getLastGra(uuid);
-        List<Integer> rozdajacy = new ArrayList<>();
-        if (!rozgrywka.getPlayer1().isEmpty()) rozdajacy.add(1);
-        if (!rozgrywka.getPlayer2().isEmpty()) rozdajacy.add(2);
-        if (!rozgrywka.getPlayer3().isEmpty()) rozdajacy.add(0);
-        if (!rozgrywka.getPlayer4().isEmpty()) rozdajacy.add(0);
-        Collections.rotate(rozdajacy,lastGra);
+        Gra gra = tysiacLab.getGra(uuid,lastGra);
+        boolean isWynikNoZero= gra.getWynik1() + gra.getWynik2() + gra.getWynik3() + gra.getWynik4() != 0;
 
         mEditTextContract1.setVisibility(rozgrywka.getPlayer1().isEmpty() ? View.GONE : View.VISIBLE);
         mEditTextContract2.setVisibility(rozgrywka.getPlayer2().isEmpty() ? View.GONE : View.VISIBLE);
         mEditTextContract3.setVisibility(rozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
         mEditTextContract4.setVisibility(rozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
 
-        mEditTextContract1.setText(!rozgrywka.getPlayer1().isEmpty() ? (rozdajacy.get(0) == 2 ? "100" : "") : "");
-        mEditTextContract2.setText(!rozgrywka.getPlayer2().isEmpty() ? (rozdajacy.get(1) == 2 ? "100" : "") : "");
-        mEditTextContract3.setText(!rozgrywka.getPlayer3().isEmpty() ? (rozdajacy.get(2) == 2 ? "100" : "") : "");
-        mEditTextContract4.setText(!rozgrywka.getPlayer4().isEmpty() ? (rozdajacy.get(3) == 2 ? "100" : "") : "");
+        mEditTextContract1.setText(!rozgrywka.getPlayer1().isEmpty() ? (gra.getContract1() == 0 ? "" : String.valueOf(gra.getContract1())) : "");;
+        mEditTextContract2.setText(!rozgrywka.getPlayer2().isEmpty() ? (gra.getContract2() == 0 ? "" : String.valueOf(gra.getContract2())) : "");;
+        mEditTextContract3.setText(!rozgrywka.getPlayer3().isEmpty() ? (gra.getContract3() == 0 ? "" : String.valueOf(gra.getContract3())) : "");;
+        mEditTextContract4.setText(!rozgrywka.getPlayer4().isEmpty() ? (gra.getContract4() == 0 ? "" : String.valueOf(gra.getContract4())) : "");;
 
         mEditTextContract1.addTextChangedListener(new TextWatcher() {
             @Override  public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -143,5 +136,14 @@ public class GraAddDialog extends DialogFragment {
         intent.putExtra(EXTRA_CONTRACT4,mEditTextContract4.getText().equals("") ? "0" : mEditTextContract4.getText().toString());
         getTargetFragment()
                 .onActivityResult(getTargetRequestCode(),Activity.RESULT_OK,intent);
+    }
+
+    public static GraEditContractDialog newInstance(UUID uuid,int graLP) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARGS_UUID,uuid);
+        args.putSerializable(ARGS_LP,graLP);
+        GraEditContractDialog fragment = new GraEditContractDialog();
+        fragment.setArguments(args);
+        return fragment;
     }
 }

@@ -5,11 +5,14 @@ import java.util.UUID;
 public  class Gra {
     private int mLp = 0;
     private UUID mUUIDRozgrywka;
-    private int mContract1,mContract2,mContract3,mContract4 = 0;
-    private int mWynik1,mWynik2,mWynik3,mWynik4 = 0;
-    private int mBomba1,mBomba2,mBomba3,mBomba4 = 0;
+    private int mContract1,mContract2,mContract3,mContract4;
+    private int mWynik1,mWynik2,mWynik3,mWynik4;
+    private int mBomba1,mBomba2,mBomba3,mBomba4;
 
     public  Gra(UUID uuid) {
+        mWynik1 = mWynik2 = mWynik3 = mWynik4 = 0;
+        mContract1 = mContract2 = mContract3 = mContract4 = 0;
+        mBomba1 = mBomba2 = mBomba3 = mBomba4 = 0;
         mUUIDRozgrywka = uuid;
     }
 
@@ -22,10 +25,6 @@ public  class Gra {
     }
 
     UUID getUUIDRozgrywka() { return mUUIDRozgrywka; }
-
-    /*public void setUUIDRozgrywka(UUID UUIDRozgrywka) {
-        mUUIDRozgrywka = UUIDRozgrywka;
-    }*/
 
     public int getContract1() {
         return mContract1;
@@ -122,4 +121,5 @@ public  class Gra {
     public void setBomba4(int bomba4) {
         mBomba4 = bomba4;
     }
+
 }

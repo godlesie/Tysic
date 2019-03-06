@@ -26,6 +26,10 @@
     <string name="dialog_set_wynik">Ustaw wynik</string>
     <string name="number_of_play">"Numer gry: "</string>
     <string name="score_title">"Rozgrywka: "</string>
-    <string name="set_bomb">DAJ BOMBĘ</string>
+    <string name="set_bomb">BOMBA</string>
     <string name="delete_message">Czy jesteś pewien?</string>
+    <string name="edit_contract">KONTRAKT</string>
+    <string name="edit_score">WYNIK</string>
+    <string name="title_activity_settings">Ustawienia</string>
+    <string name="pref_header_general">Ogólne</string>
 </resources>

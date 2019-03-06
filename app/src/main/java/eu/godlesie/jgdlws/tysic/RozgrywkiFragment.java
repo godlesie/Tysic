@@ -148,8 +148,8 @@ public class RozgrywkiFragment extends Fragment {
             mTextViewBomb4 = itemView.findViewById(R.id.text_view_bomb_4);
             mTextViewScore4 = itemView.findViewById(R.id.text_view_score_4);
 
-            mButtonDelete = itemView.findViewById(R.id.btn_delete);
-            mButtonEdit = itemView.findViewById(R.id.btn_edit);
+            mButtonDelete = itemView.findViewById(R.id.btn_set_score);
+            mButtonEdit = itemView.findViewById(R.id.btn_set_contract);
             mTableLayoutPlayers.setOnClickListener(this);
         }
 
@@ -200,6 +200,12 @@ public class RozgrywkiFragment extends Fragment {
                         )
                     .setNegativeButton(android.R.string.cancel,null)
                     .create().show());
+            mButtonEdit.setVisibility((
+                    rozgrywka.getWynik1() >= 1000||
+                    rozgrywka.getWynik2() >= 1000 ||
+                    rozgrywka.getWynik3() >= 1000 ||
+                    rozgrywka.getWynik4() >= 1000)
+                    ? View.GONE : View.VISIBLE);
             mButtonEdit.setOnClickListener(v -> {
                 FragmentManager fm = getFragmentManager();
                 RozgrywkaEditDialog dialog = RozgrywkaEditDialog.newInstance(rozgrywka.getUUID());

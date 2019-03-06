@@ -29,6 +29,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="eu.godlesie.jgdlws.tysic.RozgrywkiActivity" />
         </activity>
+        <activity android:name=".TysiacSettingActivity"
+            android:label="@string/action_settings"
+            android:parentActivityName=".RozgrywkiActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="eu.godlesie.jgdlws.tysic.RozgrywkiActivity" />
+        </activity>
     </application>
 
 </manifest>

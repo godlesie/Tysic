@@ -3,7 +3,6 @@ package eu.godlesie.jgdlws.tysic;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +10,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.UUID;
 
@@ -26,12 +28,6 @@ public class GraSetWynikDialog extends DialogFragment {
     public static final String EXTRA_WYNIK4 = "eu.godlesie.jgdlws.wynik4";
     public static final int REQUEST_WYNIK = 1;
 
-
-    private EditText mEditTextWynik1;
-    private EditText mEditTextWynik2;
-    private EditText mEditTextWynik3;
-    private EditText mEditTextWynik4;
-
     private static final String ARGS_UUID = "uuid";
     private static final String ARGS_LP = "gra_lp";
 
@@ -39,25 +35,87 @@ public class GraSetWynikDialog extends DialogFragment {
     private int lp;
     private TysiacLab mTysiacLab;
 
+    private EditText mEditTextWynik1, mEditTextWynik2,mEditTextWynik3,mEditTextWynik4;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        TextView mTextViewPlayer1,mTextViewPlayer2,mTextViewPlayer3,mTextViewPlayer4;
+        CheckBox mCheckBoxPlayer1,mCheckBoxPlayer2,mCheckBoxPlayer3,mCheckBoxPlayer4;
+
         View view = LayoutInflater.from(getActivity())
                 .inflate(R.layout.dialog_set_wynik,null);
+        assert getArguments() != null;
         mUUID = (UUID) getArguments().getSerializable(ARGS_UUID);
         lp = (int) getArguments().getSerializable(ARGS_LP);
         mEditTextWynik1 = view.findViewById(R.id.edit_text_player1);
         mEditTextWynik2 = view.findViewById(R.id.edit_text_player2);
         mEditTextWynik3 = view.findViewById(R.id.edit_text_player3);
-        mEditTextWynik4 = view.findViewById(R.id.edit_text_wynik4);
+        mEditTextWynik4 = view.findViewById(R.id.edit_text_player4);
+
+        mTextViewPlayer1 = view.findViewById(R.id.text_view_player1);
+        mTextViewPlayer2 = view.findViewById(R.id.text_view_player2);
+        mTextViewPlayer3 = view.findViewById(R.id.text_view_player3);
+        mTextViewPlayer4 = view.findViewById(R.id.text_view_player4);
+
+        mCheckBoxPlayer1 = view.findViewById(R.id.check_box_player1);
+        mCheckBoxPlayer2 = view.findViewById(R.id.check_box_player2);
+        mCheckBoxPlayer3 = view.findViewById(R.id.check_box_player3);
+        mCheckBoxPlayer4 = view.findViewById(R.id.check_box_player4);
+
+
 
         mTysiacLab = TysiacLab.get(getActivity());
         Rozgrywka rozgrywka = mTysiacLab.getRozgrywka(mUUID);
+
+        Gra gra = mTysiacLab.getGra(mUUID,lp);
+
+        mEditTextWynik1.setText(gra.getContract1() > 0 ? String.valueOf(gra.getContract1()) : String.valueOf(gra.getWynik1()));
+        mEditTextWynik2.setText(gra.getContract2() > 0 ? String.valueOf(gra.getContract2()) : String.valueOf(gra.getWynik2()));
+        mEditTextWynik3.setText(gra.getContract3() > 0 ? String.valueOf(gra.getContract3()) : String.valueOf(gra.getWynik3()));
+        mEditTextWynik4.setText(gra.getContract4() > 0 ? String.valueOf(gra.getContract4()) : String.valueOf(gra.getWynik4()));
 
         mEditTextWynik1.setVisibility(rozgrywka.getPlayer1().isEmpty() ? View.GONE : View.VISIBLE);
         mEditTextWynik2.setVisibility(rozgrywka.getPlayer2().isEmpty() ? View.GONE : View.VISIBLE);
         mEditTextWynik3.setVisibility(rozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
         mEditTextWynik4.setVisibility(rozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
+
+        mEditTextWynik1.setEnabled(gra.getContract1() > 0 ? false : true);
+        mEditTextWynik2.setEnabled(gra.getContract2() > 0 ? false : true);
+        mEditTextWynik3.setEnabled(gra.getContract3() > 0 ? false : true);
+        mEditTextWynik4.setEnabled(gra.getContract4() > 0 ? false : true);
+
+        mTextViewPlayer1.setText(rozgrywka.getPlayer1());
+        mTextViewPlayer2.setText(rozgrywka.getPlayer2());
+        mTextViewPlayer3.setText(rozgrywka.getPlayer3());
+        mTextViewPlayer4.setText(rozgrywka.getPlayer4());
+
+        mTextViewPlayer1.setVisibility(rozgrywka.getPlayer1().isEmpty() ? View.GONE : View.VISIBLE);
+        mTextViewPlayer2.setVisibility(rozgrywka.getPlayer2().isEmpty() ? View.GONE : View.VISIBLE);
+        mTextViewPlayer3.setVisibility(rozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
+        mTextViewPlayer4.setVisibility(rozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
+
+        mCheckBoxPlayer1.setVisibility(gra.getContract1() > 0 ? View.VISIBLE : View.INVISIBLE);
+        mCheckBoxPlayer2.setVisibility(gra.getContract2() > 0 ? View.VISIBLE : View.INVISIBLE);
+        mCheckBoxPlayer3.setVisibility(gra.getContract3() > 0 ? View.VISIBLE : View.INVISIBLE);
+        mCheckBoxPlayer4.setVisibility(gra.getContract4() > 0 ? View.VISIBLE : View.INVISIBLE);
+
+        mCheckBoxPlayer1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) mEditTextWynik1.setText(String.valueOf(gra.getContract1()));
+            else mEditTextWynik1.setText(String.valueOf(-gra.getContract1()));
+        });
+        mCheckBoxPlayer2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) mEditTextWynik2.setText(String.valueOf(gra.getContract2()));
+            else mEditTextWynik2.setText(String.valueOf(-gra.getContract2()));
+        });
+        mCheckBoxPlayer3.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) mEditTextWynik3.setText(String.valueOf(gra.getContract3()));
+            else mEditTextWynik3.setText(String.valueOf(-gra.getContract3()));
+        });
+        mCheckBoxPlayer4.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) mEditTextWynik4.setText(String.valueOf(gra.getContract4()));
+            else mEditTextWynik4.setText(-gra.getContract4());
+        });
 
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
