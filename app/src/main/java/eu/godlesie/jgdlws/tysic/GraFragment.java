@@ -31,7 +31,9 @@ import java.util.function.Predicate;
 
 import eu.godlesie.jgdlws.tysic.database.GraDbSchema;
 import eu.godlesie.jgdlws.tysic.model.Gra;
+import eu.godlesie.jgdlws.tysic.model.GraStatus;
 import eu.godlesie.jgdlws.tysic.model.Player;
+import eu.godlesie.jgdlws.tysic.model.PlayerState;
 import eu.godlesie.jgdlws.tysic.model.Rozgrywka;
 import eu.godlesie.jgdlws.tysic.model.TysiacLab;
 
@@ -164,14 +166,13 @@ public class GraFragment extends Fragment {
         }
     }
     private class GraHolder extends RecyclerView.ViewHolder {
-        //deklaracja pól widoku
         private TextView mTextViewNumerGry;
         private TextView mTextViewPlayer1,mTextViewPlayer2,mTextViewPlayer3,mTextViewPlayer4;
         private TextView mTextViewContract1,mTextViewContract2,mTextViewContract3,mTextViewContract4;
         TextView mTextViewBomb1,mTextViewBomb2,mTextViewBomb3,mTextViewBomb4;
         private TextView mTextViewScore1,mTextViewScore2,mTextViewScore3,mTextViewScore4;
         private TableRow mTableRowPlayer3,mTableRowPlayer4;
-        //pojedyncza gra
+
         private Gra mGra;
 
         GraHolder(@NotNull LayoutInflater inflater, ViewGroup parent) {
@@ -208,16 +209,24 @@ public class GraFragment extends Fragment {
         }
         void bind(Gra gra) {
             mGra = gra;
+            GraStatus lGraStatus;
+
+
+
             Player lPlayer1 = mTysiacLab.getplayer(mGra,1);
             Player lPlayer2 = mTysiacLab.getplayer(mGra,2);
             Player lPlayer3 = mTysiacLab.getplayer(mGra,3);
             Player lPlayer4 = mTysiacLab.getplayer(mGra,4);
 
+            PlayerState lPlayerState1 = new PlayerState.Builder(lPlayer1).build();
+            PlayerState lPlayerState2 = new PlayerState.Builder(lPlayer2).build();
+            PlayerState lPlayerState3 = new PlayerState.Builder(lPlayer3).build();
+            PlayerState lPlayerState4 = new PlayerState.Builder(lPlayer4).build();
+
             ArrayList<Integer> rozdajacy = new ArrayList<>(mRozdajacy);
 
             Function<Integer, Integer> setContract = i -> i == null ? 60 : i == 0 ? 60 : 0;
             Function<Integer, Integer> updateBomba = i -> i == 0 ? 0 : 1;
-            //Function<Player,Integer> setBomba = (Player p) -> p.getBomba() == 1 ? mRozgrywka.getBomb1() + 1 : mRozgrywka.getBomb1();
 
             Predicate<Gra> isWynikNoZero = g -> g.getWynik1() + g.getWynik2() + g.getWynik3() + g.getWynik4() != 0;
             Predicate<Gra> isGenugBombs = g -> (g.getContract1() > 0 && g.getBomba1() >= mIloscBomb) ||

@@ -74,12 +74,14 @@ public class TysiacLab {
     private TysiacLab(Context context) {
         mDatabase = new TysiacBaseHelper(context.getApplicationContext()).getWritableDatabase();
     }
+
     public static TysiacLab get(Context context) {
         if (sTysiacLab == null) {
             sTysiacLab = new TysiacLab(context);
         }
         return sTysiacLab;
     }
+
     public Rozgrywka getRozgrywka(UUID uuid) {
         try (RozgrywkaCursorWrapper cursor = queryRozgrywka(RozgrywkaTable.Cols.UUID + " = ?", new String[]{uuid.toString()}))
         {
@@ -93,7 +95,6 @@ public class TysiacLab {
                 GraTable.Cols.ROZGRYWKA_UUID + " = ? AND  " + GraTable.Cols.LP + " LIKE ?",
                 new String[]{uuid.toString(), String.valueOf(lp)}
         )) {
-            //int ccc = cursor.getCount();
             if (cursor.getCount() == 0) return null;
             cursor.moveToFirst();
             return cursor.getGra();
@@ -221,4 +222,5 @@ public class TysiacLab {
         HashMap<Integer,Player> result = fillPlayers(pGra);
         return result.get(pPlayer);
     }
+
 }
