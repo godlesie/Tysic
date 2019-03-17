@@ -1,15 +1,17 @@
 package eu.godlesie.jgdlws.tysic.model;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import eu.godlesie.jgdlws.tysic.database.GraCursorWrapper;
@@ -21,8 +23,10 @@ import static eu.godlesie.jgdlws.tysic.database.RozgrywkaDbSchema.RozgrywkaTable
 
 public class TysiacLab {
 
+    @SuppressLint("StaticFieldLeak")
     private static TysiacLab sTysiacLab;
     private SQLiteDatabase mDatabase;
+    private Context mContext;
 
     private static ContentValues getRozgrywkaValues(Rozgrywka rozgrywka) {
         ContentValues contentValues = new ContentValues();
@@ -72,7 +76,8 @@ public class TysiacLab {
         return contentValues;
     }
     private TysiacLab(Context context) {
-        mDatabase = new TysiacBaseHelper(context.getApplicationContext()).getWritableDatabase();
+        mContext = context;
+        mDatabase = new TysiacBaseHelper(mContext.getApplicationContext()).getWritableDatabase();
     }
 
     public static TysiacLab get(Context context) {
@@ -209,18 +214,24 @@ public class TysiacLab {
                 );
         return new GraCursorWrapper(cursor);
     }
-    private HashMap<Integer,Player> fillPlayers(@NotNull Gra pGra) {
-        HashMap<Integer,Player> result = new HashMap<>();
+ /*   private SparseArray<Player> fillPlayers(@NotNull Gra pGra) {
+        SparseArray<Player> result = new SparseArray<>();
         Rozgrywka lRozgrywka = sTysiacLab.getRozgrywka(pGra.getUUIDRozgrywka());
         result.put(1,new Player.Builder(lRozgrywka.getPlayer1()).contract(pGra.getContract1()).bomba(pGra.getBomba1()).score(pGra.getWynik1()).build());
         result.put(2,new Player.Builder(lRozgrywka.getPlayer2()).contract(pGra.getContract2()).bomba(pGra.getBomba2()).score(pGra.getWynik2()).build());
         result.put(3,new Player.Builder(lRozgrywka.getPlayer3()).contract(pGra.getContract3()).bomba(pGra.getBomba3()).score(pGra.getWynik3()).build());
         result.put(4,new Player.Builder(lRozgrywka.getPlayer4()).contract(pGra.getContract4()).bomba(pGra.getBomba4()).score(pGra.getWynik4()).build());
         return result;
+    }*/
+    public GraStatus getGraStatus(Gra pGra) {
+        int limit = Integer.valueOf(Objects.requireNonNull(PreferenceManager.getDefaultSharedPreferences(mContext).getString("bomb_list", "0")));
+        Rozgrywka lRozgrywka = this.getRozgrywka(pGra.getUUIDRozgrywka());
+        if (pGra.getWynik1() + pGra.getWynik2() + pGra.getWynik3() + pGra.getWynik4() == 0) {
+            if ( (pGra.getContract1() > 0 && (limit - lRozgrywka.getBomb1()) <= 0) ||
+                     (pGra.getContract2() > 0 && (limit - lRozgrywka.getBomb2()) <= 0) ||
+                     (pGra.getContract3() > 0 && (limit - lRozgrywka.getBomb3()) <= 0) ||
+                     (pGra.getContract4() > 0 && (limit - lRozgrywka.getBomb4()) <= 0)) {  return GraStatus.NOBOMBS;
+            } else return  GraStatus.ALLES;
+        } else return  GraStatus.ONLYSCORE;
     }
-    public Player getplayer(Gra pGra,int pPlayer) {
-        HashMap<Integer,Player> result = fillPlayers(pGra);
-        return result.get(pPlayer);
-    }
-
 }
