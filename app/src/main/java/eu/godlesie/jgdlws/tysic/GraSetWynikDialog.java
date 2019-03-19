@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -15,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import eu.godlesie.jgdlws.tysic.model.Gra;
@@ -31,6 +33,8 @@ public class GraSetWynikDialog extends DialogFragment {
     private static final String ARGS_UUID = "uuid";
     private static final String ARGS_LP = "gra_lp";
 
+    private int nieDopisujemy;
+
     private UUID mUUID;
     private int lp;
     private TysiacLab mTysiacLab;
@@ -43,8 +47,9 @@ public class GraSetWynikDialog extends DialogFragment {
         TextView mTextViewPlayer1,mTextViewPlayer2,mTextViewPlayer3,mTextViewPlayer4;
         CheckBox mCheckBoxPlayer1,mCheckBoxPlayer2,mCheckBoxPlayer3,mCheckBoxPlayer4;
 
-        View view = LayoutInflater.from(getActivity())
-                .inflate(R.layout.dialog_set_wynik,null);
+        nieDopisujemy = Integer.valueOf(Objects.requireNonNull(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("nie_dopisujemy", "0")));
+
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_set_wynik,null);
         assert getArguments() != null;
         mUUID = (UUID) getArguments().getSerializable(ARGS_UUID);
         lp = (int) getArguments().getSerializable(ARGS_LP);
@@ -63,12 +68,15 @@ public class GraSetWynikDialog extends DialogFragment {
         mCheckBoxPlayer3 = view.findViewById(R.id.check_box_player3);
         mCheckBoxPlayer4 = view.findViewById(R.id.check_box_player4);
 
-
-
         mTysiacLab = TysiacLab.get(getActivity());
         Rozgrywka rozgrywka = mTysiacLab.getRozgrywka(mUUID);
 
         Gra gra = mTysiacLab.getGra(mUUID,lp);
+
+        mEditTextWynik1.setEnabled(rozgrywka.getWynik1() - nieDopisujemy >= 0 ? false : gra.getContract1() > 0 ? false : true);
+        mEditTextWynik2.setEnabled(rozgrywka.getWynik2() - nieDopisujemy >= 0 ? false : gra.getContract2() > 0 ? false : true);
+        mEditTextWynik3.setEnabled(rozgrywka.getWynik3() - nieDopisujemy >= 0 ? false : gra.getContract3() > 0 ? false : true);
+        mEditTextWynik4.setEnabled(rozgrywka.getWynik4() - nieDopisujemy >= 0 ? false : gra.getContract4() > 0 ? false : true);
 
         mEditTextWynik1.setText(gra.getContract1() > 0 ? String.valueOf(gra.getContract1()) : String.valueOf(gra.getWynik1()));
         mEditTextWynik2.setText(gra.getContract2() > 0 ? String.valueOf(gra.getContract2()) : String.valueOf(gra.getWynik2()));
@@ -79,11 +87,6 @@ public class GraSetWynikDialog extends DialogFragment {
         mEditTextWynik2.setVisibility(rozgrywka.getPlayer2().isEmpty() ? View.GONE : View.VISIBLE);
         mEditTextWynik3.setVisibility(rozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
         mEditTextWynik4.setVisibility(rozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
-
-        mEditTextWynik1.setEnabled(gra.getContract1() > 0 ? false : true);
-        mEditTextWynik2.setEnabled(gra.getContract2() > 0 ? false : true);
-        mEditTextWynik3.setEnabled(gra.getContract3() > 0 ? false : true);
-        mEditTextWynik4.setEnabled(gra.getContract4() > 0 ? false : true);
 
         mTextViewPlayer1.setText(rozgrywka.getPlayer1());
         mTextViewPlayer2.setText(rozgrywka.getPlayer2());
@@ -101,20 +104,16 @@ public class GraSetWynikDialog extends DialogFragment {
         mCheckBoxPlayer4.setVisibility(gra.getContract4() > 0 ? View.VISIBLE : View.INVISIBLE);
 
         mCheckBoxPlayer1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) mEditTextWynik1.setText(String.valueOf(gra.getContract1()));
-            else mEditTextWynik1.setText(String.valueOf(-gra.getContract1()));
+            mEditTextWynik1.setText(isChecked ? String.valueOf(gra.getContract1()) : String.valueOf(-gra.getContract1()));
         });
         mCheckBoxPlayer2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) mEditTextWynik2.setText(String.valueOf(gra.getContract2()));
-            else mEditTextWynik2.setText(String.valueOf(-gra.getContract2()));
+            mEditTextWynik2.setText(isChecked ? String.valueOf(gra.getContract2()) : String.valueOf(-gra.getContract2()));
         });
         mCheckBoxPlayer3.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) mEditTextWynik3.setText(String.valueOf(gra.getContract3()));
-            else mEditTextWynik3.setText(String.valueOf(-gra.getContract3()));
+            mEditTextWynik3.setText(isChecked ? String.valueOf(gra.getContract3()) : String.valueOf(-gra.getContract3()));
         });
         mCheckBoxPlayer4.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) mEditTextWynik4.setText(String.valueOf(gra.getContract4()));
-            else mEditTextWynik4.setText(-gra.getContract4());
+            mEditTextWynik4.setText(isChecked ? String.valueOf(gra.getContract4()) : String.valueOf(-gra.getContract4()));
         });
 
         return new AlertDialog.Builder(getActivity())
