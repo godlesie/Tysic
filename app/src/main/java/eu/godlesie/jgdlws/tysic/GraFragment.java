@@ -44,7 +44,7 @@ public class GraFragment extends Fragment {
     TysiacLab mTysiacLab;
     Rozgrywka mRozgrywka;
     UUID mUUID;
-    Button mButtonScore, mButtonContract, mButtonSetBomb;
+    Button mButtonScore, mButtonContract, mButtonSetBomb,mButtonDelete;
 
     Typeface mFontAwesome;
 
@@ -182,6 +182,7 @@ public class GraFragment extends Fragment {
             mButtonScore = itemView.findViewById(R.id.btn_set_score);
             mButtonContract = itemView.findViewById(R.id.btn_set_contract);
             mButtonSetBomb = itemView.findViewById(R.id.btn_set_bomb);
+            mButtonDelete = itemView.findViewById(R.id.btn_delete);
 
             mTextViewPlayer1 = itemView.findViewById(R.id.text_view_player_1); mTextViewPlayer1.setTypeface(mFontAwesome);
             mTextViewPlayer2 = itemView.findViewById(R.id.text_view_player_2);mTextViewPlayer2.setTypeface(mFontAwesome);
@@ -209,7 +210,9 @@ public class GraFragment extends Fragment {
 
             ArrayList<Integer> rozdajacy = new ArrayList<>(mRozdajacy);
 
-            Function<Integer, Integer> setContract = i -> i == null ? 60 : i == 0 ? 60 : 0;
+            int wartoscBomby = Integer.valueOf(Objects.requireNonNull(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("wartosc_bomby", "60")));
+
+            Function<Integer, Integer> setContract = i -> i == null ? wartoscBomby : i == 0 ? wartoscBomby : 0;
             Function<Integer, Integer> updateBomba = i -> i == 0 ? 0 : 1;
 
             switch (mTysiacLab.getGraStatus(mGra)) {
@@ -217,17 +220,33 @@ public class GraFragment extends Fragment {
                     mButtonContract.setVisibility(View.VISIBLE);
                     mButtonSetBomb.setVisibility(View.VISIBLE);
                     mButtonScore.setVisibility(View.VISIBLE);
+                    mButtonDelete.setVisibility(View.GONE);
                     break;
                 case NOBOMBS:
                     mButtonContract.setVisibility(View.VISIBLE);
                     mButtonSetBomb.setVisibility(View.GONE);
                     mButtonScore.setVisibility(View.VISIBLE);
+                    mButtonDelete.setVisibility(View.GONE);
                     break;
                 case ONLYSCORE:
                     mButtonContract.setVisibility(View.GONE);
                     mButtonSetBomb.setVisibility(View.GONE);
                     mButtonScore.setVisibility(View.VISIBLE);
+                    mButtonDelete.setVisibility(View.GONE);
                     break;
+                case ONLYBOMB:
+                    mButtonDelete.setVisibility(View.VISIBLE);
+                    mButtonContract.setVisibility(View.GONE);
+                    mButtonSetBomb.setVisibility(View.GONE);
+                    mButtonScore.setVisibility(View.GONE);
+                    break;
+                case NOBUTTON:
+                    mButtonDelete.setVisibility(View.GONE);
+                    mButtonContract.setVisibility(View.GONE);
+                    mButtonSetBomb.setVisibility(View.GONE);
+                    mButtonScore.setVisibility(View.GONE);
+                    break;
+
             }
 
             mButtonSetBomb.setOnClickListener(v -> {

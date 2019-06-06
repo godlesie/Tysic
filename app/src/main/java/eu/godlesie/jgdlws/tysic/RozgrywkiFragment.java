@@ -156,6 +156,7 @@ public class RozgrywkiFragment extends Fragment {
         void bind(Rozgrywka rozgrywka) {
             mRozgrywka = rozgrywka;
             String scoreTitle = getResources().getString(R.string.score_title) + " " + DateFormat.format(DATE_FORMAT, rozgrywka.getDate());
+            //String scoreTitle = getResources().getString(R.string.score_title) + " " + DateFormat.format(DATE_FORMAT, rozgrywka.getUUID().timestamp());
 
             //TODO - status rozgrywki
             boolean isDone = (mRozgrywka.getWynik1() >= 1000 ||

@@ -85,8 +85,7 @@ public class TysiacSettingActivity extends AppCompatPreferenceActivity {
 
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
-                || GeneralPreferenceFragment.class.getName().equals(fragmentName)
-                || SyncPreferenceFragment.class.getName().equals(fragmentName);
+                || GeneralPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -95,29 +94,10 @@ public class TysiacSettingActivity extends AppCompatPreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
-            addPreferencesFromResource(R.xml.pref_data_sync);
             setHasOptionsMenu(true);
             bindPreferenceSummaryToValue(findPreference("bomb_list"));
+            bindPreferenceSummaryToValue(findPreference("wartosc_bomby"));
             bindPreferenceSummaryToValue(findPreference("nie_dopisujemy"));
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), TysiacSettingActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-    }
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class SyncPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_data_sync);
-            setHasOptionsMenu(true);
         }
 
         @Override

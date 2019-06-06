@@ -24,7 +24,7 @@ import static eu.godlesie.jgdlws.tysic.database.RozgrywkaDbSchema.RozgrywkaTable
 public class TysiacLab {
 
     @SuppressLint("StaticFieldLeak")
-    private static TysiacLab sTysiacLab;
+    private static TysiacLab sTysiacLab = null;
     private SQLiteDatabase mDatabase;
     private Context mContext;
 
@@ -214,18 +214,12 @@ public class TysiacLab {
                 );
         return new GraCursorWrapper(cursor);
     }
- /*   private SparseArray<Player> fillPlayers(@NotNull Gra pGra) {
-        SparseArray<Player> result = new SparseArray<>();
-        Rozgrywka lRozgrywka = sTysiacLab.getRozgrywka(pGra.getUUIDRozgrywka());
-        result.put(1,new Player.Builder(lRozgrywka.getPlayer1()).contract(pGra.getContract1()).bomba(pGra.getBomba1()).score(pGra.getWynik1()).build());
-        result.put(2,new Player.Builder(lRozgrywka.getPlayer2()).contract(pGra.getContract2()).bomba(pGra.getBomba2()).score(pGra.getWynik2()).build());
-        result.put(3,new Player.Builder(lRozgrywka.getPlayer3()).contract(pGra.getContract3()).bomba(pGra.getBomba3()).score(pGra.getWynik3()).build());
-        result.put(4,new Player.Builder(lRozgrywka.getPlayer4()).contract(pGra.getContract4()).bomba(pGra.getBomba4()).score(pGra.getWynik4()).build());
-        return result;
-    }*/
+
     public GraStatus getGraStatus(Gra pGra) {
         int limit = Integer.valueOf(Objects.requireNonNull(PreferenceManager.getDefaultSharedPreferences(mContext).getString("bomb_list", "0")));
         Rozgrywka lRozgrywka = this.getRozgrywka(pGra.getUUIDRozgrywka());
+        if (pGra.getLp() < getLastGra(pGra.getUUIDRozgrywka())) return GraStatus.NOBUTTON;
+        if ((pGra.getBomba1() + pGra.getBomba2() + pGra.getBomba3() + pGra.getBomba3() > 0) ) return GraStatus.ONLYBOMB;
         if (pGra.getWynik1() + pGra.getWynik2() + pGra.getWynik3() + pGra.getWynik4() == 0) {
             if ( (pGra.getContract1() > 0 && (limit - lRozgrywka.getBomb1()) <= 0) ||
                      (pGra.getContract2() > 0 && (limit - lRozgrywka.getBomb2()) <= 0) ||

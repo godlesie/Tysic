@@ -1,5 +1,7 @@
 package eu.godlesie.jgdlws.tysic.model;
 
+import com.fasterxml.uuid.Generators;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,7 +13,8 @@ public class Rozgrywka {
     private Date mDate;
 
     public Rozgrywka() {
-        this(UUID.randomUUID());
+        //this(UUID.randomUUID());
+        this(Generators.timeBasedGenerator().generate());
     }
 
     public Rozgrywka(UUID id) {

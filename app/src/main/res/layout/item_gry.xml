@@ -214,7 +214,7 @@
             android:textColor="@android:color/background_light"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_delete"
             app:layout_constraintTop_toBottomOf="@+id/table_summary_players" />
 
         <Button
@@ -245,6 +245,21 @@
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_set_contract"
+            app:layout_constraintTop_toBottomOf="@+id/table_summary_players" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/delete"
+            android:textColor="@android:color/background_light"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/table_summary_players" />
 
     </android.support.constraint.ConstraintLayout>
