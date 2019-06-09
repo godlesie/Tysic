@@ -20,7 +20,7 @@
             android:id="@+id/table_row_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorAccent"
+            android:background="@color/colorSecondary"
             android:padding="2dp">
 
             <TextView
@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="@string/players"
+                android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
             <TextView
@@ -37,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/bombs"
+                android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
             <TextView
@@ -45,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/score"
+                android:textColor="@android:color/white"
                 android:textAlignment="viewEnd"
                 android:textStyle="bold" />
         </TableRow>
