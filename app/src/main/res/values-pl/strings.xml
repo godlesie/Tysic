@@ -32,4 +32,19 @@
     <string name="edit_score">WYNIK</string>
     <string name="title_activity_settings">Ustawienia</string>
     <string name="pref_header_general">Ogólne</string>
+
+    <string name="next">NASTĘPNY</string>
+    <string name="skip">DALEJ</string>
+    <string name="start">DO DZIEŁA</string>
+    <string name="slide_1_title">Tytuł pierwszego slajdu!</string>
+    <string name="slide_1_desc">Krótki opis naszego slajdu
+pierwszego!</string>
+    <string name="slide_2_title">Tytuł drugiego slajdu</string>
+    <string name="slide_2_desc">Krótki opis naszego slajdu drugiego!</string>
+    <string name="slide_3_title">Tytuł trzeciego slajdu</string>
+    <string name="slide_3_desc">Krótki opis naszego slajdu trzeciego!</string>
+    <string name="slide_4_title">Tytuł czwartego slajdul</string>
+    <string name="slide_4_desc">Krótki opis naszego slajdu czwartego!</string>
+    <string name="play_again_desc">Aby zobaczyć ekran startowy ponownie idź do Ustawienia -> intro</string>
+    <string name="play_again">Ponów</string>
 </resources>

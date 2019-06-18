@@ -8,17 +8,28 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".App">
         android:theme="@style/AppTheme">
         <activity
-            android:name=".RozgrywkiActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:name=".SplashActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".RozgrywkiActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".GraActivity"
@@ -29,7 +40,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="eu.godlesie.jgdlws.tysic.RozgrywkiActivity" />
         </activity>
-        <activity android:name=".TysiacSettingActivity"
+        <activity
+            android:name=".TysiacSettingActivity"
             android:label="@string/action_settings"
             android:parentActivityName=".RozgrywkiActivity">
             <meta-data

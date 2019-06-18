@@ -52,6 +52,7 @@ public class GraFragment extends Fragment {
     int mIloscGraczy = 0;
     int mIloscBomb = 0;
 
+    TextView mtextViewSummaryPlayer1,mtextViewSummaryPlayer2,mtextViewSummaryPlayer3,mtextViewSummaryPlayer4;
     TextView mTextViewSummaryBomb1,mTextViewSummaryBomb2,mTextViewSummaryBomb3,mTextViewSummaryBomb4;
     TextView mTextViewSummaryScore1,mTextViewSummaryScore2,mTextViewSummaryScore3,mTextViewSummaryScore4;
 
@@ -85,10 +86,14 @@ public class GraFragment extends Fragment {
         TableRow  tableRowSummaryPlayer4 = view.findViewById(R.id.table_row_summary_player_4);
         tableRowSummaryPlayer4.setVisibility(mRozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
 
-        TextView textViewSummaryPlayer1 = view.findViewById(R.id.text_view_summary_player_1);
-        TextView textViewSummaryPlayer2 = view.findViewById(R.id.text_view_summary_player_2);
-        TextView textViewSummaryPlayer3 = view.findViewById(R.id.text_view_summary_player_3);
-        TextView textViewSummaryPlayer4 = view.findViewById(R.id.text_view_summary_player_4);
+        mtextViewSummaryPlayer1 = view.findViewById(R.id.text_view_summary_player_1);
+        mtextViewSummaryPlayer1.setTypeface(mFontAwesome);
+        mtextViewSummaryPlayer2 = view.findViewById(R.id.text_view_summary_player_2);
+        mtextViewSummaryPlayer2.setTypeface(mFontAwesome);
+        mtextViewSummaryPlayer3 = view.findViewById(R.id.text_view_summary_player_3);
+        mtextViewSummaryPlayer3.setTypeface(mFontAwesome);
+        mtextViewSummaryPlayer4 = view.findViewById(R.id.text_view_summary_player_4);
+        mtextViewSummaryPlayer4.setTypeface(mFontAwesome);
 
         mTextViewSummaryBomb1 = view.findViewById(R.id.text_view_summary_bomb_1);
         mTextViewSummaryBomb2 = view.findViewById(R.id.text_view_summary_bomb_2);
@@ -105,10 +110,6 @@ public class GraFragment extends Fragment {
         mTextViewSummaryScore3 = view.findViewById(R.id.text_view_summary_score_3);
         mTextViewSummaryScore4 = view.findViewById(R.id.text_view_summary_score_4);
 
-        textViewSummaryPlayer1.setText(mRozgrywka.getPlayer1());
-        textViewSummaryPlayer2.setText(mRozgrywka.getPlayer2());
-        textViewSummaryPlayer3.setText(mRozgrywka.getPlayer3());
-        textViewSummaryPlayer4.setText(mRozgrywka.getPlayer4());
         updateUI();
         return view;
     }
@@ -126,6 +127,10 @@ public class GraFragment extends Fragment {
         List<Gra> gry = mTysiacLab.getGry(mUUID);
         Gra gra = mTysiacLab.getGra(mUUID,mTysiacLab.getLastGra(mUUID));
 
+        ArrayList<Integer> rozdajacy = new ArrayList<>(mRozdajacy);
+
+        Collections.rotate(rozdajacy, gry.size() == 0 ? 0 : gra.getLp() -1);
+
         Rozgrywka rozgrywka = mTysiacLab.getRozgrywka(mUUID);
         rozgrywka.setWynik1(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_1,mUUID));
         rozgrywka.setWynik2(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_2,mUUID));
@@ -133,6 +138,19 @@ public class GraFragment extends Fragment {
         rozgrywka.setWynik4(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_4,mUUID));
 
         mTysiacLab.updateRozgrywka(rozgrywka);
+
+        mtextViewSummaryPlayer1.setText(!mRozgrywka.getPlayer1().isEmpty() ? mRozgrywka.getPlayer1() + " " +
+                (rozdajacy.get(0) ==1 ? Objects.requireNonNull(getActivity()).getResources().getString(R.string.fa_hand) : " ")
+                : "");
+        mtextViewSummaryPlayer2.setText(!mRozgrywka.getPlayer2().isEmpty() ? mRozgrywka.getPlayer2() + " " +
+                (rozdajacy.get(1) ==1 ? Objects.requireNonNull(getActivity()).getResources().getString(R.string.fa_hand) : " ")
+                : "");
+        mtextViewSummaryPlayer3.setText(!mRozgrywka.getPlayer3().isEmpty() ? mRozgrywka.getPlayer3() + " " +
+                (rozdajacy.get(2) ==1 ? Objects.requireNonNull(getActivity()).getResources().getString(R.string.fa_hand) : " ")
+                : "");
+        mtextViewSummaryPlayer4.setText(!mRozgrywka.getPlayer4().isEmpty() ? mRozgrywka.getPlayer4() + " " +
+                (rozdajacy.get(3) ==1 ? Objects.requireNonNull(getActivity()).getResources().getString(R.string.fa_hand) : " ")
+                : "");
 
         mTextViewSummaryScore1.setText(String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_1,mUUID)));
         mTextViewSummaryScore2.setText(String.valueOf(mTysiacLab.getSummaryWynik(GraDbSchema.GraTable.Cols.WYNIK_2,mUUID)));
@@ -184,10 +202,14 @@ public class GraFragment extends Fragment {
             mButtonSetBomb = itemView.findViewById(R.id.btn_set_bomb);
             mButtonDelete = itemView.findViewById(R.id.btn_delete);
 
-            mTextViewPlayer1 = itemView.findViewById(R.id.text_view_player_1); mTextViewPlayer1.setTypeface(mFontAwesome);
-            mTextViewPlayer2 = itemView.findViewById(R.id.text_view_player_2);mTextViewPlayer2.setTypeface(mFontAwesome);
-            mTextViewPlayer3 = itemView.findViewById(R.id.text_view_player_3);mTextViewPlayer3.setTypeface(mFontAwesome);
-            mTextViewPlayer4 = itemView.findViewById(R.id.text_view_player_4);mTextViewPlayer4.setTypeface(mFontAwesome);
+            mTextViewPlayer1 = itemView.findViewById(R.id.text_view_player_1);
+            mTextViewPlayer1.setTypeface(mFontAwesome);
+            mTextViewPlayer2 = itemView.findViewById(R.id.text_view_player_2);
+            mTextViewPlayer2.setTypeface(mFontAwesome);
+            mTextViewPlayer3 = itemView.findViewById(R.id.text_view_player_3);
+            mTextViewPlayer3.setTypeface(mFontAwesome);
+            mTextViewPlayer4 = itemView.findViewById(R.id.text_view_player_4);
+            mTextViewPlayer4.setTypeface(mFontAwesome);
 
             mTextViewContract1 = itemView.findViewById(R.id.text_view_contract_1);
             mTextViewContract2 = itemView.findViewById(R.id.text_view_contract_2);
@@ -285,7 +307,7 @@ public class GraFragment extends Fragment {
                 dialog.show(manager,SET_WYNIK_DIALOG);
             });
 
-            mTextViewNumerGry.setText(getResources().getString(R.string.number_of_play) + String.valueOf(mGra.getLp()));
+            mTextViewNumerGry.setText(getResources().getString(R.string.number_of_play) + mGra.getLp());
 
             mTableRowPlayer3.setVisibility(mRozgrywka.getPlayer3().isEmpty() ? View.GONE : View.VISIBLE);
             mTableRowPlayer4.setVisibility(mRozgrywka.getPlayer4().isEmpty() ? View.GONE : View.VISIBLE);
@@ -296,13 +318,13 @@ public class GraFragment extends Fragment {
                     (rozdajacy.get(0) ==1 ? Objects.requireNonNull(getActivity()).getResources().getString(R.string.fa_hand) : " ")
                     : "");
             mTextViewPlayer2.setText(!mRozgrywka.getPlayer2().isEmpty() ? mRozgrywka.getPlayer2() + " " +
-                    (rozdajacy.get(1) ==1 ? getActivity().getResources().getString(R.string.fa_hand) : " ")
+                    (rozdajacy.get(1) ==1 ? Objects.requireNonNull(getActivity()).getResources().getString(R.string.fa_hand) : " ")
                     : "");
-            mTextViewPlayer3.setText(!mRozgrywka.getPlayer3().isEmpty() ? mRozgrywka.getPlayer3() + " " +
-                    (rozdajacy.get(2) ==1 ? getActivity().getResources().getString(R.string.fa_hand) : " ")
+            mTextViewPlayer3.setText(!mRozgrywka.getPlayer3().isEmpty() ? (mRozgrywka.getPlayer3() + " " +
+                    ((rozdajacy.get(2) == 1) ? Objects.requireNonNull(getActivity()).getResources().getString(R.string.fa_hand) : " "))
                     : "");
             mTextViewPlayer4.setText(!mRozgrywka.getPlayer4().isEmpty() ? mRozgrywka.getPlayer4() + " " +
-                    (rozdajacy.get(3) ==1 ? getActivity().getResources().getString(R.string.fa_hand) : " ")
+                    (rozdajacy.get(3) ==1 ? Objects.requireNonNull(getActivity()).getResources().getString(R.string.fa_hand) : " ")
                     : "");
 
             mTextViewBomb1.setText(mGra.getBomba1() == 0 ? "" : String.valueOf(mGra.getBomba1()));
